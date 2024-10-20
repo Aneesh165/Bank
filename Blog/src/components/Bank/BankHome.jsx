@@ -9,7 +9,8 @@ const BankHome = () => {
   return (
     <div>
       <div className="flex justify-end pr-12 py-4 bg-sky-300 gap-8">
-        <h2 className="text-xl font-semibold"><Link to='/viewusers'>View Users</Link></h2>
+        
+        <Link to='/viewusers'><h2 className="text-xl font-semibold">View Users</h2></Link>
         <button>
           <Link to="/">
             <FiLogOut size={28} />

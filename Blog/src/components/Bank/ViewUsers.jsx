@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Bank from "../../assets/Bank.png";
 import { FiSearch } from "react-icons/fi";
+import { Link } from "react-router-dom";
 
 const ViewUsers = () => {
   const [users, setUsers] = useState([
@@ -56,7 +57,7 @@ const ViewUsers = () => {
                     <h2>{user.name}</h2>
                   </td>
                   <td className="flex justify-evenly my-5">
-                    <button className="bg-sky-300 px-5 py-2 rounded-3xl">View</button>
+                    <button className="bg-sky-300 px-5 py-2 rounded-3xl"><Link to='/viewuserprofile'>View</Link></button>
                     <button className="bg-sky-300 px-5 py-2 rounded-3xl">History</button>
                   </td>
                 </tr>
