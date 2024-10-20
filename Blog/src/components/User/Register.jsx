@@ -1,12 +1,11 @@
-import React from 'react'
-import Bank from '../assets/Bank.png'
+import Bank from '../../assets/Bank.png'
 
 const Register = () => {
   return (
     <section className='h-[100vh] flex'>
       <div className='h-[100%] w-[25%]'><img className='h-[100%] object-right' src={Bank} alt=""/></div>
       <form className='w-[75%] h-[100%] bg-white flex justify-around'>
-        <div className='w-80% px-2 w-[80%] h-[90%] my-auto bg-sky-300 '>  
+        <div className='w-80% px-2 w-[80%] h-[93%] my-auto bg-sky-300 '>  
           <h1 className='mt-2 text-5xl text-center'>Register</h1>
           <div className='flex justify-around mt-2 h-[70%] relative'>
           <div className='flex flex-col justify-evenly  h-[88%] '>

@@ -1,5 +1,5 @@
-import React from "react";
-import Bank from '../assets/Bank.png'
+import Bank from '../../assets/Bank.png'
+import { Link } from "react-router-dom";
 
 const Login = () => {
   return (
@@ -24,7 +24,7 @@ const Login = () => {
             </button>
             <div className="flex justify-evenly text-lg">
               <p>Don't have an account?</p>
-              <a href="">Register</a>
+              <Link to='/Register'>Register</Link>
             </div>
           </div>
         </form>
