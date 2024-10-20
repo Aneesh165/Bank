@@ -18,13 +18,13 @@ const EditProfile = () => {
     image: null,
   });
 
-  // const handleChange = (e) => {
-  //   const { name, value, type, files } = e.target;
-  //   setFormData((prev) => ({
-  //     ...prev,
-  //     [name]: type === "file" ? files[0] : value,
-  //   }));
-  // };
+  const handleChange = (e) => {
+    const { name, value, type, files } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: type === "file" ? files[0] : value,
+    }));
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
