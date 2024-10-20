@@ -8,11 +8,13 @@ const Withdrawal = () => {
   const [withdrawalInfo, setWithdrawalInfo] = useState({
     accountNumber: "xxxxxxxxxxxxx",
     branch: "Branch Name",
-    amount: 1000,
+    amount: 2000,
   });
 
   const handleWithdraw = () => {
-    alert(`Withdrawing $${withdrawalInfo.amount} from account ${withdrawalInfo.accountNumber}`);
+    alert(
+      `Withdrawing $${withdrawalInfo.amount} from account ${withdrawalInfo.accountNumber}`
+    );
   };
 
   return (
@@ -32,7 +34,7 @@ const Withdrawal = () => {
         <div className="my-auto w-[20%] text-end">
           <Link to="/home">Home</Link>
         </div>
-        
+
         <div className="my-auto flex justify-between w-[30%]">
           <IoMdNotificationsOutline size={25} />
           <Link to="/deposit">Deposit</Link>
@@ -60,17 +62,23 @@ const Withdrawal = () => {
 
           <div>
             <h2 className="pl-10 text-xl font-semibold">Account no:</h2>
-            <h3 className="ml-24 text-green-700 text-lg">{withdrawalInfo.accountNumber}</h3>
+            <h3 className="ml-24 text-green-700 text-lg">
+              {withdrawalInfo.accountNumber}
+            </h3>
           </div>
 
           <div>
             <h2 className="pl-10 text-xl font-semibold">Branch</h2>
-            <h3 className="ml-24 text-green-700 text-lg">{withdrawalInfo.branch}</h3>
+            <h3 className="ml-24 text-green-700 text-lg">
+              {withdrawalInfo.branch}
+            </h3>
           </div>
 
           <div>
             <h2 className="pl-10 text-xl font-semibold">Amount</h2>
-            <h3 className="ml-24 text-green-700 text-lg">${withdrawalInfo.amount}</h3>
+            <h3 className="ml-24 text-green-700 text-lg">
+              ${withdrawalInfo.amount}
+            </h3>
           </div>
 
           <button

@@ -12,10 +12,13 @@ const Deposit = () => {
   });
 
   const handleDeposit = () => {
-    // Placeholder for deposit functionality, e.g., API call
     alert(
       `Depositing $${depositInfo.amount} to account ${depositInfo.accountNumber}`
     );
+  };
+
+  const handleChange = (e) => {
+    setDepositInfo({ ...depositInfo, [e.target.name]: e.target.value });
   };
 
   return (
@@ -75,11 +78,19 @@ const Deposit = () => {
             </h3>
           </div>
 
-          <div>
+          <div className="relative">
             <h2 className="pl-10 text-xl font-semibold">Amount</h2>
-            <h3 className="ml-24 text-green-700 text-lg">
-              ${depositInfo.amount}
-            </h3>
+
+            <span className="ml-2 text-lg font-semibold absolute bottom-1 left-16">
+              $
+            </span>
+            <input
+              type="number"
+              name="amount"
+              value={depositInfo.amount}
+              onChange={handleChange}
+              className="ml-24 text-lg  rounded-lg bg-inherit py-1"
+            />
           </div>
 
           <button
