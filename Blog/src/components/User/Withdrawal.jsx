@@ -16,6 +16,9 @@ const Withdrawal = () => {
       `Withdrawing $${withdrawalInfo.amount} from account ${withdrawalInfo.accountNumber}`
     );
   };
+  const handleChange = (e) => {
+    setWithdrawalInfo({ ...withdrawalInfo, [e.target.name]: e.target.value });
+  };
 
   return (
     <section className="flex flex-col">
@@ -74,12 +77,21 @@ const Withdrawal = () => {
             </h3>
           </div>
 
-          <div>
+          <div className="relative">
             <h2 className="pl-10 text-xl font-semibold">Amount</h2>
-            <h3 className="ml-24 text-green-700 text-lg">
-              ${withdrawalInfo.amount}
-            </h3>
+
+            <span className="ml-2 text-lg font-semibold absolute bottom-1 left-16">
+              $
+            </span>
+            <input
+              type="number"
+              name="amount"
+              value={withdrawalInfo.amount}
+              onChange={handleChange}
+              className="ml-24 text-lg  rounded-lg bg-inherit py-1"
+            />
           </div>
+
 
           <button
             type="submit"
