@@ -5,7 +5,7 @@ import { IoMdNotificationsOutline } from "react-icons/io";
 import { Link } from "react-router-dom";
 
 const Withdrawal = () => {
-  const [withdrawalInfo, setWithdrawalInfo] = useState({
+  const [withdrawal, setWithdrawal] = useState({
     accountNumber: "xxxxxxxxxxxxx",
     branch: "Branch Name",
     amount: 2000,
@@ -13,11 +13,11 @@ const Withdrawal = () => {
 
   const handleWithdraw = () => {
     alert(
-      `Withdrawing $${withdrawalInfo.amount} from account ${withdrawalInfo.accountNumber}`
+      `Withdrawing $${withdrawal.amount} from account ${withdrawal.accountNumber}`
     );
   };
   const handleChange = (e) => {
-    setWithdrawalInfo({ ...withdrawalInfo, [e.target.name]: e.target.value });
+    setWithdrawal({ ...withdrawal, [e.target.name]: e.target.value });
   };
 
   return (
@@ -66,14 +66,14 @@ const Withdrawal = () => {
           <div>
             <h2 className="pl-10 text-xl font-semibold">Account no:</h2>
             <h3 className="ml-24 text-green-700 text-lg">
-              {withdrawalInfo.accountNumber}
+              {withdrawal.accountNumber}
             </h3>
           </div>
 
           <div>
             <h2 className="pl-10 text-xl font-semibold">Branch</h2>
             <h3 className="ml-24 text-green-700 text-lg">
-              {withdrawalInfo.branch}
+              {withdrawal.branch}
             </h3>
           </div>
 
@@ -86,7 +86,7 @@ const Withdrawal = () => {
             <input
               type="number"
               name="amount"
-              value={withdrawalInfo.amount}
+              value={withdrawal.amount}
               onChange={handleChange}
               className="ml-24 text-lg  rounded-lg bg-inherit py-1"
             />

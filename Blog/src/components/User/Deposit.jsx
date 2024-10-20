@@ -5,7 +5,7 @@ import { IoMdNotificationsOutline } from "react-icons/io";
 import { Link } from "react-router-dom";
 
 const Deposit = () => {
-  const [depositInfo, setDepositInfo] = useState({
+  const [deposit, setDeposit] = useState({
     accountNumber: "xxxxxxxxxxxxx",
     branch: "Branch Name",
     amount: 10000,
@@ -13,12 +13,12 @@ const Deposit = () => {
 
   const handleDeposit = () => {
     alert(
-      `Depositing $${depositInfo.amount} to account ${depositInfo.accountNumber}`
+      `Depositing $${deposit.amount} to account ${deposit.accountNumber}`
     );
   };
 
   const handleChange = (e) => {
-    setDepositInfo({ ...depositInfo, [e.target.name]: e.target.value });
+    setDeposit({ ...deposit, [e.target.name]: e.target.value });
   };
 
   return (
@@ -67,14 +67,14 @@ const Deposit = () => {
           <div>
             <h2 className="pl-10 text-xl font-semibold">Account no:</h2>
             <h3 className="ml-24 text-green-700 text-lg">
-              {depositInfo.accountNumber}
+              {deposit.accountNumber}
             </h3>
           </div>
 
           <div>
             <h2 className="pl-10 text-xl font-semibold">Branch</h2>
             <h3 className="ml-24 text-green-700 text-lg">
-              {depositInfo.branch}
+              {deposit.branch}
             </h3>
           </div>
 
@@ -87,7 +87,7 @@ const Deposit = () => {
             <input
               type="number"
               name="amount"
-              value={depositInfo.amount}
+              value={deposit.amount}
               onChange={handleChange}
               className="ml-24 text-lg  rounded-lg bg-inherit py-1"
             />

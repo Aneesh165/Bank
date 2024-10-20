@@ -5,7 +5,7 @@ import { IoMdNotificationsOutline } from "react-icons/io";
 import { Link } from "react-router-dom";
 
 const Home = () => {
-  const [accountInfo, setAccountInfo] = useState({
+  const [account, setAccount] = useState({
     accountNumber: "xxxxxxxxxxxxx",
     balance: 35000,
   });
@@ -52,11 +52,11 @@ const Home = () => {
         <div className="w-[40%] ml-6 mt-10 h-[380px] bg-sky-300 rounded-3xl flex justify-evenly items-center flex-col">
           <div>
             <h2 className="text-xl font-semibold">Account Number</h2>
-            <h3 className="text-center text-lg">{accountInfo.accountNumber}</h3>
+            <h3 className="text-center text-lg">{account.accountNumber}</h3>
           </div>
           <div>
             <h2 className="text-xl font-semibold">Available Balance</h2>
-            <h3 className="text-center text-lg">${accountInfo.balance}</h3>
+            <h3 className="text-center text-lg">${account.balance}</h3>
           </div>
           <div className="flex justify-between w-[75%]">
             <h2 className="text-purple-500">
