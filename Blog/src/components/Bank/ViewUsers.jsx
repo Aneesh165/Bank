@@ -58,7 +58,7 @@ const ViewUsers = () => {
                   </td>
                   <td className="flex justify-evenly my-5">
                     <button className="bg-sky-300 px-5 py-2 rounded-3xl"><Link to='/viewuserprofile'>View</Link></button>
-                    <button className="bg-sky-300 px-5 py-2 rounded-3xl">History</button>
+                    <button className="bg-sky-300 px-5 py-2 rounded-3xl"><Link to='/viewusertansactions'>History</Link></button>
                   </td>
                 </tr>
               ))}
