@@ -99,8 +99,11 @@ const Register = () => {
       console.log(response.data); 
       navigate('/');
     } catch (error) {
-      console.error('Error:', error.response ? error.response.data : error.message);
-    }
+      if (error.response && error.response.status === 409) {
+        alert(error.response.data.error); 
+      } else {
+        console.error('Error:', error.response ? error.response.data : error.message);
+      }    }
   };
 
   return (
