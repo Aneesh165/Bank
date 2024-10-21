@@ -1,9 +1,8 @@
-import express from 'express'
-import { AddUser } from '../Control/Usercontroller.js';
-import { upload } from '../Multer.js';
+import express from 'express';
+import { AddUser, uploadImage } from '../Control/Usercontroller.js';
 
-const router =express.Router();
+const router = express.Router();
 
-router.post('/register',upload.single('image'), AddUser);
+router.post('/register', uploadImage, AddUser);
 
 export default router;
