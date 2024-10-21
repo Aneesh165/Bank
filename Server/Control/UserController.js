@@ -1,29 +1,50 @@
-import User from "../Model/UserModel.js";
+import bcrypt from 'bcrypt';
+import User from '../model/userModel.js'; 
+import { upload } from '../Multer.js'; 
 
 export const AddUser = async (req, res) => {
-  const {
-    name,
-    username,
-    address,
-    email,
-    age,
-    phone,
-    dob,
-    adhar,
-    initialamount,
-    password,
-    pancard
-  } = req.body;
-
-  let image =req.file
-  console.log(image);
+  console.log("2");
+  
+  const { name, username, address, email, age, phone, dob, adhar, initialamount, password, pancard } = req.body;
+  console.log("1");
   
 
+  let image = req.file; 
+  console.log(image);
+console.log("3");
+
   try {
-    // let newUser = new User({ name:name, email:email, password:password });
-    //   await newUser.save();
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    let newUser = new User({
+      name,
+      username,
+      address,
+      email,
+      age,
+      phone,
+      dob,
+      adhar,
+      initialamount,
+      password: hashedPassword,
+      pancard,
+      image: image ? image.filename : null 
+    });
+
+    await newUser.save();
+    res.status(201).json({ message: "User registered successfully" });
+    
   } catch (error) {
+    console.error(error);
+    
+    if (error.code === 11000) {
+      const field = Object.keys(error.keyValue)[0]; 
+      const message = field === 'username' ? 'Username already exists' : 'Email already exists';
+      return res.status(409).json({ error: message });
+    }
+
     res.status(500).json({ error: "Failed to register user" });
-    console.log(error);
   }
 };
+
+export const uploadImage = upload.single('image');

@@ -4,48 +4,37 @@ const userschema = new mongoose.Schema({
     name:{
         type:String,
         required:true
-    },
-    username:{
+    },username:{
         type:String,
         required:true
-    },
-    address:{
+    },address:{
         type:String,
         required:true
-    },
-    email:{
+    },email:{
         type:String,
         required:true
-    },
-    age:{
+    },age:{
         type:String,
         required:true
-    },
-    phone:{
+    },phone:{
         type:String,
         required:true
-    },
-    dob:{
+    },dob:{
         type:String,
         required:true
-    },
-    adhar:{
+    },adhar:{
         type:String,
         required:true
-    },
-    initialamount:{
+    },initialamount:{
         type:String,
         required:true
-    },
-    password:{
+    },password:{
         type:String,
         required:true
-    },
-    pancard:{
+    },pancard:{
         type:String,
         required:true
-    },
-    image:{
+    },image:{
         type:String,
         required:true
     }
