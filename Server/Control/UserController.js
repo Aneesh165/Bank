@@ -1,6 +1,7 @@
 import bcrypt from "bcrypt";
 import User from "../model/userModel.js";
 import { upload } from "../Multer.js";
+import jwt from "jsonwebtoken";
 
 export const AddUser = async (req, res) => {
   console.log("2");
@@ -70,3 +71,32 @@ export const AddUser = async (req, res) => {
 };
 
 export const uploadImage = upload.single("image");
+
+export const UserLogin = async (req, res) => {
+  const { username, password } = req.body;
+  
+  try {
+    const existingUser = await User.findOne({ username: username.toLowerCase() });
+    
+    if (!existingUser) {
+      return res.json({ success: false, message: "Username not found" });
+    }
+
+    const comparePassword = await bcrypt.compare(password, existingUser.password);
+    
+    if (comparePassword) {
+      const payload = { user: { id: existingUser.id } };
+      const token = jwt.sign(payload, process.env.JWT_Secret, { expiresIn: 36000 });
+      
+      return res.json({ success: true, message: "Login successful", token });
+    } else {
+      return res.json({ success: false, message: "Incorrect password" });
+    }
+    
+  } catch (error) {
+    console.error("Login error:", error);
+    return res.json({ success: false, message: "Internal server error" });
+  }
+};
+
+
