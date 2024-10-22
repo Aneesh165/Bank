@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import axios from 'axios';
 import Bank from '../../assets/Bank.png';
-import {useNavigate} from 'react-router-dom'
+import {Link, useNavigate} from 'react-router-dom'
 
 const Register = () => {
 
@@ -145,7 +145,7 @@ const Register = () => {
             </button>
             <div className="flex justify-evenly mt-3 text-lg pr-32">
               <p>Already Have an Account?</p>
-              <a href="">Login</a>
+              <Link to='/'>Login</Link>
             </div>
           </div>
         </div>
