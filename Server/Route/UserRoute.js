@@ -5,6 +5,7 @@ import {
   UserDeposit,
   UserHome,
   UserLogin,
+  UserProfile,
   UserWithdraw,
 } from "../Control/Usercontroller.js";
 import { Deposited, Withdrawed } from "../Control/TransactionController.js";
@@ -20,5 +21,7 @@ router.post("/deposit/:id", Deposited);
 
 router.get("/withdrawl/:id", UserWithdraw);
 router.post("/withdrawl/:id", Withdrawed);
+
+router.get("/profile/:id", UserProfile);
 
 export default router;

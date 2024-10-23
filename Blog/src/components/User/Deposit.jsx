@@ -8,7 +8,10 @@ import axios from "axios";
 const Deposit = () => {
   const [account, setAccount] = useState({
     accountNumber: "xxxxxxxxxxxxx",
+    image:
+      "https://images.pexels.com/photos/771742/pexels-photo-771742.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
   });
+
   const [deposit, setDeposit] = useState({
     branch: "Branch Name",
     amount: "",
@@ -33,6 +36,7 @@ const Deposit = () => {
 
         setAccount({
           accountNumber: response.data.AccountNumber,
+          image: response.data.image,
         });
         // console.log(account);
       } catch (error) {
@@ -74,7 +78,7 @@ const Deposit = () => {
           <Link to="/profile">
             <img
               className="rounded-full h-[100%] w-[100%] object-cover object-top"
-              src="https://images.pexels.com/photos/771742/pexels-photo-771742.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
+              src={`http://localhost:8080/uploads/${account.image}`}
               alt="profile picture"
             />
           </Link>

@@ -117,6 +117,7 @@ export const UserHome = async (req, res) => {
     res.json({
       AccountNumber: exsistinguser.accountno,
       balance: exsistinguser.initialamount,
+      image: exsistinguser.image,
     });
   } catch (error) {
     console.log("Error fetching user data:", error);
@@ -130,7 +131,10 @@ export const UserDeposit = async (req, res) => {
     if (!exsistinguser) {
       return res.json({ message: "usernotfound" });
     }
-    res.json({ AccountNumber: exsistinguser.accountno });
+    res.json({
+      AccountNumber: exsistinguser.accountno,
+      image: exsistinguser.image,
+    });
   } catch (error) {
     console.log("Error fetching user data:", error);
   }
@@ -143,7 +147,23 @@ export const UserWithdraw = async (req, res) => {
     if (!exsistinguser) {
       return res.json({ message: "usernotfound" });
     }
-    res.json({ AccountNumber: exsistinguser.accountno });
+    res.json({
+      AccountNumber: exsistinguser.accountno,
+      image: exsistinguser.image,
+    });
+  } catch (error) {
+    console.log("Error fetching user data:", error);
+  }
+};
+
+export const UserProfile = async (req, res) => {
+  const Userid = req.params.id;
+  try {
+    const exsistinguser = await User.findById(Userid);
+    if (!exsistinguser) {
+      return res.json({ message: "usernotfound" });
+    }
+    res.json({ exsistinguser });
   } catch (error) {
     console.log("Error fetching user data:", error);
   }
