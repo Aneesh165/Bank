@@ -4,11 +4,23 @@ import { upload } from "../Multer.js";
 import jwt from "jsonwebtoken";
 
 export const AddUser = async (req, res) => {
-  const {name,username,address,email,age,phone,dob,adhar,initialamount,password,pancard} = req.body;
+  const {
+    name,
+    username,
+    address,
+    email,
+    age,
+    phone,
+    dob,
+    adhar,
+    initialamount,
+    password,
+    pancard,
+  } = req.body;
   let image = req.file;
   console.log(image);
   try {
-    const existingEmailUser = await User.findOne({ email});
+    const existingEmailUser = await User.findOne({ email });
     if (existingEmailUser) {
       return res.status(409).json({ error: "Email already exists" });
     }
@@ -19,9 +31,23 @@ export const AddUser = async (req, res) => {
     }
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    const accno=Math.ceil(Math.random()*100000000000000)
+    const accno = Math.ceil(Math.random() * 100000000000000);
 
-    let newUser = new User({name,username,address,email,age,phone,dob,adhar,initialamount,password: hashedPassword,pancard,image: image ? image.filename : null,accountno:accno});
+    let newUser = new User({
+      name,
+      username,
+      address,
+      email,
+      age,
+      phone,
+      dob,
+      adhar,
+      initialamount,
+      password: hashedPassword,
+      pancard,
+      image: image ? image.filename : null,
+      accountno: accno,
+    });
 
     await newUser.save();
     res.status(201).json({ message: "User registered successfully" });
@@ -66,7 +92,12 @@ export const UserLogin = async (req, res) => {
         expiresIn: 36000,
       });
 
-      return res.json({ success: true, message: "Login successful", token,userId: existingUser._id  });
+      return res.json({
+        success: true,
+        message: "Login successful",
+        token,
+        userId: existingUser._id,
+      });
     } else {
       return res.json({ success: false, message: "Incorrect password" });
     }
@@ -79,16 +110,41 @@ export const UserLogin = async (req, res) => {
 export const UserHome = async (req, res) => {
   const Userid = req.params.id;
   try {
-    const exsistinguser= await User.findById(Userid)
-    if(!exsistinguser){
-      return res.json({message:'usernotfound'})
-    }    
-    res.json({AccountNumber :exsistinguser.accountno, balance:exsistinguser.initialamount})
-
-    
+    const exsistinguser = await User.findById(Userid);
+    if (!exsistinguser) {
+      return res.json({ message: "usernotfound" });
+    }
+    res.json({
+      AccountNumber: exsistinguser.accountno,
+      balance: exsistinguser.initialamount,
+    });
   } catch (error) {
-    console.log("Error fetching user data:",error);
-    
+    console.log("Error fetching user data:", error);
   }
-}
+};
 
+export const UserDeposit = async (req, res) => {
+  const Userid = req.params.id;
+  try {
+    const exsistinguser = await User.findById(Userid);
+    if (!exsistinguser) {
+      return res.json({ message: "usernotfound" });
+    }
+    res.json({ AccountNumber: exsistinguser.accountno });
+  } catch (error) {
+    console.log("Error fetching user data:", error);
+  }
+};
+
+export const UserWithdraw = async (req, res) => {
+  const Userid = req.params.id;
+  try {
+    const exsistinguser = await User.findById(Userid);
+    if (!exsistinguser) {
+      return res.json({ message: "usernotfound" });
+    }
+    res.json({ AccountNumber: exsistinguser.accountno });
+  } catch (error) {
+    console.log("Error fetching user data:", error);
+  }
+};
