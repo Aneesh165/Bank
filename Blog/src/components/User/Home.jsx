@@ -17,7 +17,7 @@ const Home = () => {
         const userId = localStorage.getItem("userId");
         const token = localStorage.getItem("token");
 
-        console.log("Token:", token, "UserID:", userId);
+        // console.log("Token:", token, "UserID:", userId);
 
         const response = await axios.get(
           `http://localhost:8080/user/${userId}`,
@@ -28,7 +28,7 @@ const Home = () => {
           }
         );
 
-        console.log("API Response:", response.data);
+        // console.log("API Response:", response.data);
 
         setAccount({
           accountNumber: response.data.AccountNumber,
