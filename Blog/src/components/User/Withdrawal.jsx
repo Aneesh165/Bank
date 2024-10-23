@@ -1,23 +1,72 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Bank from "../../assets/Bank.png";
 import { FiLogOut } from "react-icons/fi";
 import { IoMdNotificationsOutline } from "react-icons/io";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
 const Withdrawal = () => {
-  const [withdrawal, setWithdrawal] = useState({
+  const [account, setAccount] = useState({
     accountNumber: "xxxxxxxxxxxxx",
+  });
+  const [withdrawal, setWithdrawal] = useState({
     branch: "Branch Name",
-    amount: 2000,
+    amount: "",
   });
 
-  const handleWithdraw = () => {
-    alert(
-      `Withdrawing $${withdrawal.amount} from account ${withdrawal.accountNumber}`
-    );
+  useEffect(() => {
+    const fetchAccountDetails = async () => {
+      try {
+        const userId = localStorage.getItem("userId");
+        const token = localStorage.getItem("token");
+
+        // console.log("Token:", token, "UserID:", userId);
+
+        const response = await axios.get(
+          `http://localhost:8080/user/withdrawl/${userId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        setAccount({
+          accountNumber: response.data.AccountNumber,
+        });
+        // console.log(account);
+      } catch (error) {
+        console.log("Error fetching account details:", error);
+      }
+    };
+
+    fetchAccountDetails();
+  }, []);
+
+  const handleWithdraw = async () => {
+    // console.log(withdrawal);
+
+    try {
+      const userId = localStorage.getItem("userId");
+      const response = await axios.post(
+        `http://localhost:8080/user/withdrawl/${userId}`,
+        {
+          amount: withdrawal.amount,
+        }
+      );
+      alert(response.data.message);
+    } catch (error) {
+      console.error("Error during withdrawal:", error);
+      alert("An error occurred during the withdrawal. Please try again.");
+    }
   };
+
   const handleChange = (e) => {
-    setWithdrawal({ ...withdrawal, [e.target.name]: e.target.value });
+    const value = e.target.value;
+    setWithdrawal({
+      ...withdrawal,
+      [e.target.name]: value ? Number(value) : 0,
+    });
   };
 
   return (
@@ -66,7 +115,7 @@ const Withdrawal = () => {
           <div>
             <h2 className="pl-10 text-xl font-semibold">Account no:</h2>
             <h3 className="ml-24 text-green-700 text-lg">
-              {withdrawal.accountNumber}
+              {account.accountNumber}
             </h3>
           </div>
 
@@ -86,12 +135,12 @@ const Withdrawal = () => {
             <input
               type="number"
               name="amount"
+              placeholder="0"
               value={withdrawal.amount}
               onChange={handleChange}
-              className="ml-24 text-lg  rounded-lg bg-inherit py-1"
+              className="ml-24 text-lg  rounded-lg bg-inherit py-1 placeholder:text-black"
             />
           </div>
-
 
           <button
             type="submit"
