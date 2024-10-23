@@ -1,24 +1,69 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Bank from "../../assets/Bank.png";
 import { FiLogOut } from "react-icons/fi";
 import { IoMdNotificationsOutline } from "react-icons/io";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
 const Deposit = () => {
-  const [deposit, setDeposit] = useState({
+  const [account, setAccount] = useState({
     accountNumber: "xxxxxxxxxxxxx",
+  });
+  const [deposit, setDeposit] = useState({
     branch: "Branch Name",
-    amount: 10000,
+    amount: "",
   });
 
-  const handleDeposit = () => {
-    alert(
-      `Depositing $${deposit.amount} to account ${deposit.accountNumber}`
-    );
+  useEffect(() => {
+    const fetchAccountDetails = async () => {
+      try {
+        const userId = localStorage.getItem("userId");
+        const token = localStorage.getItem("token");
+
+        // console.log("Token:", token, "UserID:", userId);
+
+        const response = await axios.get(
+          `http://localhost:8080/user/deposit/${userId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        setAccount({
+          accountNumber: response.data.AccountNumber,
+        });
+        // console.log(account);
+      } catch (error) {
+        console.log("Error fetching account details:", error);
+      }
+    };
+
+    fetchAccountDetails();
+  }, []);
+
+  const handleDeposit = async () => {
+    console.log(deposit);
+
+    try {
+      const userId = localStorage.getItem("userId");
+      const response = await axios.post(
+        `http://localhost:8080/user/deposit/${userId}`,
+        {
+          amount: deposit.amount,
+        }
+      );
+      alert(response.data.message);
+    } catch (error) {
+      console.error("Error during deposit:", error);
+      alert("An error occurred during the deposit. Please try again.");
+    }
   };
 
   const handleChange = (e) => {
-    setDeposit({ ...deposit, [e.target.name]: e.target.value });
+    const value = e.target.value;
+    setDeposit({ ...deposit, [e.target.name]: value ? Number(value) : 0 });
   };
 
   return (
@@ -67,15 +112,13 @@ const Deposit = () => {
           <div>
             <h2 className="pl-10 text-xl font-semibold">Account no:</h2>
             <h3 className="ml-24 text-green-700 text-lg">
-              {deposit.accountNumber}
+              {account.accountNumber}
             </h3>
           </div>
 
           <div>
             <h2 className="pl-10 text-xl font-semibold">Branch</h2>
-            <h3 className="ml-24 text-green-700 text-lg">
-              {deposit.branch}
-            </h3>
+            <h3 className="ml-24 text-green-700 text-lg">{deposit.branch}</h3>
           </div>
 
           <div className="relative">
@@ -87,9 +130,10 @@ const Deposit = () => {
             <input
               type="number"
               name="amount"
+              placeholder="0"
               value={deposit.amount}
               onChange={handleChange}
-              className="ml-24 text-lg  rounded-lg bg-inherit py-1"
+              className="ml-24 text-lg rounded-lg bg-inherit py-1 placeholder:text-black"
             />
           </div>
 
