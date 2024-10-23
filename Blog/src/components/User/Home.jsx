@@ -1,14 +1,46 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Bank from "../../assets/Bank.png";
 import { FiLogOut } from "react-icons/fi";
 import { IoMdNotificationsOutline } from "react-icons/io";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
 const Home = () => {
   const [account, setAccount] = useState({
-    accountNumber: "xxxxxxxxxxxxx",
-    balance: 35000,
+    accountNumber: "xxxxxxxxxxxxxx",
+    balance: 0,
   });
+
+  useEffect(() => {
+    const fetchAccountDetails = async () => {
+      try {
+        const userId = localStorage.getItem("userId");
+        const token = localStorage.getItem("token");
+
+        console.log("Token:", token, "UserID:", userId);
+
+        const response = await axios.get(
+          `http://localhost:8080/user/${userId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        console.log("API Response:", response.data);
+
+        setAccount({
+          accountNumber: response.data.AccountNumber,
+          balance: response.data.balance,
+        });
+      } catch (error) {
+        console.log("Error fetching account details:", error);
+      }
+    };
+
+    fetchAccountDetails();
+  }, []);
 
   return (
     <section className="flex flex-col">

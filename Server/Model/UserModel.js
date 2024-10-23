@@ -26,7 +26,7 @@ const userschema = new mongoose.Schema({
         type:String,
         required:true
     },initialamount:{
-        type:String,
+        type:Number,
         required:true
     },password:{
         type:String,
@@ -37,6 +37,9 @@ const userschema = new mongoose.Schema({
     },image:{
         type:String,
         required:true
+    },
+    accountno:{
+        type:String
     }
 })
 

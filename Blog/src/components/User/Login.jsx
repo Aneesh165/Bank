@@ -25,6 +25,8 @@ const Login = () => {
       });
 
       if (response.data.success) {
+        localStorage.setItem("token", response.data.token);
+        localStorage.setItem("userId", response.data.userId);
         console.log("Login successful!");
         navigate("/home");
       } else {
