@@ -38,7 +38,7 @@ const Deposit = () => {
           accountNumber: response.data.AccountNumber,
           image: response.data.image,
         });
-        // console.log(account);
+        
       } catch (error) {
         console.log("Error fetching account details:", error);
       }
@@ -56,6 +56,7 @@ const Deposit = () => {
         `http://localhost:8080/user/transaction/${userId}`,
         {
           amount: deposit.amount,
+          transaction: "credit"
         }
       );
       alert(response.data.message);

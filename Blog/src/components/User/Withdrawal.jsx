@@ -54,6 +54,7 @@ const Withdrawal = () => {
         `http://localhost:8080/user/transaction/${userId}`,
         {
           amount: withdrawal.amount,
+          transaction: "debit"
         }
       );
       alert(response.data.message);
