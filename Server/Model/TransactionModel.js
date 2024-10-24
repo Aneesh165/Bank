@@ -6,11 +6,8 @@ const TransactionSchema = new mongoose.Schema({
     default: new Date(),  
   },
   time: {
-    type: String,  
-    default: function() {
-      const date = new Date();
-      return date.toTimeString().split(' ')[0]; 
-    }
+    type: String, 
+        default: new Date().toLocaleTimeString(), 
   },
   amount: {
     type: Number,

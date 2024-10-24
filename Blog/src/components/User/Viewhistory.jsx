@@ -3,6 +3,7 @@ import Bank from "../../assets/Bank.png";
 import { FiLogOut } from "react-icons/fi";
 import { IoMdNotificationsOutline } from "react-icons/io";
 import { Link } from "react-router-dom";
+import axios from 'axios'
 
 const Viewhistory = () => {
   const [history, setHistory] = useState([

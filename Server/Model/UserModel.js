@@ -40,7 +40,11 @@ const userschema = new mongoose.Schema({
     },
     accountno:{
         type:String
-    }
+    },
+    transactions: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Transaction' 
+      }]
     
 })
 
