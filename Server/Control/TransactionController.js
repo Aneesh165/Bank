@@ -52,9 +52,9 @@ export const getUserTransactionHistory = async (req, res) => {
           return res.json({ message: "User not found" });
       }
 
-      res.json({ transactions: user.transactions });
+      res.json({ transaction: user.transactions });
   } catch (error) {
       console.error(error);
-      res.status(500).json({ message: "Server error" });
+      res.json({ message: "Server error" });
   }
 };

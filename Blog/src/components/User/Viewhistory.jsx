@@ -1,34 +1,35 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Bank from "../../assets/Bank.png";
 import { FiLogOut } from "react-icons/fi";
 import { IoMdNotificationsOutline } from "react-icons/io";
 import { Link } from "react-router-dom";
-import axios from 'axios'
+import axios from "axios";
 
 const Viewhistory = () => {
-  const [history, setHistory] = useState([
-    {
-      date: "12/5/2024",
-      time: "02:20 PM",
-      detail: "Debit",
-      amount: 2000,
-      balance: 22000,
-    },
-    {
-      date: "13/5/2024",
-      time: "03:45 PM",
-      detail: "Credit",
-      amount: 1000,
-      balance: 23000,
-    },
-    {
-      date: "14/5/2024",
-      time: "10:10 AM",
-      detail: "Debit",
-      amount: 500,
-      balance: 22500,
-    },
-  ]);
+  const [history, setHistory] = useState([]);
+  const [error, setError] = useState(null);
+  const [profile, setProfiile] = useState({ image: "" });
+
+  useEffect(() => {
+    const fetchUserHistory = async () => {
+      try {
+        const userId = localStorage.getItem("userId");
+
+        const response = await axios.get(
+          `http://localhost:8080/user/history/${userId}`
+        );
+        // console.log(response.data);
+        setHistory(response.data.transaction || []);
+        const res = await axios.get(`http://localhost:8080/user/${userId}`);
+        setProfiile({ image: res.data.image });
+        console.log(profile);
+      } catch (error) {
+        setError("Failed to load transaction history");
+        console.error(error);
+      }
+    };
+    fetchUserHistory();
+  }, []);
 
   return (
     <section className="flex flex-col">
@@ -38,7 +39,7 @@ const Viewhistory = () => {
           <Link to="/profile">
             <img
               className="rounded-full h-[100%] w-[100%] object-cover object-top"
-              src="https://images.pexels.com/photos/771742/pexels-photo-771742.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
+              src={`http://localhost:8080/uploads/${profile.image}`}
               alt="profile picture"
             />
           </Link>
@@ -76,15 +77,27 @@ const Viewhistory = () => {
               </tr>
             </thead>
             <tbody className="text-center">
-              {history.map((transaction, index) => (
-                <tr key={index}>
-                  <td>{transaction.date}</td>
-                  <td>{transaction.time}</td>
-                  <td>{transaction.detail}</td>
-                  <td>${transaction.amount}</td>
-                  <td>${transaction.balance}</td>
+              {history.length > 0 ? (
+                history.map((transaction, index) => {
+                  const transactionDate = new Date(transaction.date);
+                  const formattedDate =
+                    transactionDate.toLocaleDateString("en-GB");
+
+                  return (
+                    <tr key={index}>
+                      <td>{formattedDate}</td>
+                      <td>{transaction.time}</td>
+                      <td>{transaction.detail}</td>
+                      <td>${transaction.amount}</td>
+                      <td>${transaction.balance}</td>
+                    </tr>
+                  );
+                })
+              ) : (
+                <tr>
+                  <td colSpan="5">No transactions found</td>
                 </tr>
-              ))}
+              )}
             </tbody>
           </table>
         </form>
