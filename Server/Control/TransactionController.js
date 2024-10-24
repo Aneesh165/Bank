@@ -1,64 +1,39 @@
-// import Transaction from "../Model/TransactionModel.js";
+import Transaction from "../Model/TransactionModel.js";
 import User from "../model/userModel.js";
 
-// export const AmountTransactions = async(req,res)=>{
-//     const {amount,transaction}= req.body
-//     const userid = req.params.id
-//     try {
-//         const exsistingUser= await User.findById(userid)
-//         if(!exsistingUser){
-//             return res.json({message:"User not found"})
-//         }
-//         if(transaction=="credit"){
-//         exsistingUser.initialamount+=amount
-//         }if(transaction=="debit"){
-//             exsistingUser.initialamount-=amount
-//         }
-//         let user = await exsistingUser.save()
-//         res.json({message:"deposited",user})
-//     } catch (error) {
-//         console.log(error);
-
-//     }
-// }
-
-export const Deposited = async (req, res) => {
-  const { amount } = req.body;
-  const userid = req.params.id;
+export const UserTransactions = async (req, res) => {
+  const { amount, transaction } = req.body;
+  const userId = req.params.id;
   try {
-    const transaction = "credited";
-    const exsistingUser = await User.findById(userid);
-    if (!exsistingUser) {
-      return res.json({ message: "User not found" });
-    }
-    exsistingUser.initialamount += amount;
-
-    let user = await exsistingUser.save();
-    res.json({ message: transaction, amount, balance: user.initialamount });
-  } catch (error) {
-    console.log(error);
-  }
-};
-export const Withdrawed = async (req, res) => {
-  const { amount } = req.body;
-  const userid = req.params.id;
-  try {
-    const transaction = "Debited";
-    const existingUser = await User.findById(userid);
-
+    const existingUser = await User.findById(userId);
     if (!existingUser) {
-      return res.json({ message: "User not found" });
+      return res.status(404).json({ message: "User not found" });
     }
-    if (existingUser.initialamount - amount < 0) {
-      return res.json({ message: "Insufficient Balance" });
+    if (transaction === "credit") {
+      existingUser.initialamount += amount;
+    } else if (transaction === "debit") {
+      if (existingUser.initialamount < amount) {
+        return res.status(400).json({ message: "Insufficient balance" });
+      }
+      existingUser.initialamount -= amount;
+    } else {
+      return res.status(400).json({ message: "Invalid transaction type" });
     }
-
-    existingUser.initialamount -= amount;
-
-    let user = await existingUser.save();
-    res.json({ message: transaction, amount, balance: user.initialamount });
+    await existingUser.save();
+    const newTransaction = new Transaction({
+      date: new Date(),
+      amount: amount,
+      transaction: transaction,
+      balance: existingUser.initialamount,
+    });
+    await newTransaction.save();
+    res.json({
+      message: "Transaction successful",
+      user: existingUser,
+      transaction: newTransaction,
+    });
   } catch (error) {
-    console.log(error);
-    res.status(500).json({ message: "An error occurred during withdrawal." });
+    console.error(error);
+    res.status(500).json({ message: "Internal server error" });
   }
 };

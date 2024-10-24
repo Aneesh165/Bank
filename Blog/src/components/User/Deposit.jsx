@@ -53,7 +53,7 @@ const Deposit = () => {
     try {
       const userId = localStorage.getItem("userId");
       const response = await axios.post(
-        `http://localhost:8080/user/deposit/${userId}`,
+        `http://localhost:8080/user/transaction/${userId}`,
         {
           amount: deposit.amount,
         }

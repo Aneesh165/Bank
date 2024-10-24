@@ -41,6 +41,7 @@ const userschema = new mongoose.Schema({
     accountno:{
         type:String
     }
+    
 })
 
 const User = mongoose.model('User',userschema)

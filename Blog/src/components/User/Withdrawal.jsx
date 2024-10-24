@@ -51,7 +51,7 @@ const Withdrawal = () => {
     try {
       const userId = localStorage.getItem("userId");
       const response = await axios.post(
-        `http://localhost:8080/user/withdrawl/${userId}`,
+        `http://localhost:8080/user/transaction/${userId}`,
         {
           amount: withdrawal.amount,
         }
