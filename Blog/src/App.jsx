@@ -1,4 +1,3 @@
-import React from 'react'
 import Login from './components/User/Login'
 import './Style.css'
 import Register from './components/User/Register'

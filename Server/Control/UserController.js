@@ -168,3 +168,30 @@ export const UserProfile = async (req, res) => {
     console.log("Error fetching user data:", error);
   }
 };
+
+
+export const EditUserProfile = async(req,res)=>{
+  let userid = req.params.id
+
+  console.log(req.body,"userdata",userid);
+  console.log(req.file);
+  
+  try {
+    let UserExist = await User.findById(userid);
+    if (!UserExist) {
+      res.json({ message: "User Do not exist" });
+    } else {
+      const updatedData = { ...req.body };
+      if (req.file) {
+        updatedData.image = req.file.filename;
+      }
+      let updatedUser = await User.findByIdAndUpdate(userid, updatedData, {
+        new: true,
+      });
+
+      res.json({ message: "User updated successfully", updatedUser });
+    }
+  } catch (error) {
+    console.log(error);
+  }
+}

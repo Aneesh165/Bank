@@ -1,10 +1,12 @@
+import axios from "axios";
 import Bank from "../../assets/Bank.png";
 import { FiLogOut } from "react-icons/fi";
 import { IoMdNotificationsOutline } from "react-icons/io";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useState } from "react";
 
 const EditProfile = () => {
+  const { id: userId } = useParams();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -26,10 +28,32 @@ const EditProfile = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    
-    console.log(formData);
+
+    const formDataToSubmit = new FormData();
+    for (const key in formData) {
+      formDataToSubmit.append(key, formData[key]);
+    }
+
+    try {
+      const userId = localStorage.getItem("userId");
+      console.log(formDataToSubmit, "asddds");
+
+      const response = await axios.put(
+        `http://localhost:8080/user/profile/${userId}`,
+        formDataToSubmit,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+
+      console.log("User updated successfully:", response.data);
+    } catch (error) {
+      console.error("Error updating user:", error);
+    }
   };
 
   return (
@@ -104,7 +128,7 @@ const EditProfile = () => {
                 <label htmlFor="aadhar">Aadhar</label>
                 <input
                   id="aadhar"
-                  name="aadhar"
+                  name="adhar"
                   className="w-5/6 h-9"
                   type="text"
                   onChange={handleChange}
@@ -136,7 +160,7 @@ const EditProfile = () => {
                 <label htmlFor="phoneNumber">Phone Number</label>
                 <input
                   id="phoneNumber"
-                  name="phoneNumber"
+                  name="phone"
                   className="w-5/6 h-9"
                   type="text"
                   onChange={handleChange}
@@ -146,7 +170,7 @@ const EditProfile = () => {
                 <label htmlFor="pan">PAN No.</label>
                 <input
                   id="pan"
-                  name="pan"
+                  name="pancard"
                   className="w-5/6 h-9"
                   type="text"
                   onChange={handleChange}
@@ -166,7 +190,9 @@ const EditProfile = () => {
             </div>
           </div>
           <div>
-            <button className="px-9 rounded-3xl bg-white text-xl py-3 mt-4">Update</button>
+            <button className="px-9 rounded-3xl bg-white text-xl py-3 mt-4">
+              Update
+            </button>
           </div>
         </form>
       </div>

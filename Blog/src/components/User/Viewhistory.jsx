@@ -22,7 +22,7 @@ const Viewhistory = () => {
         setHistory(response.data.transaction || []);
         const res = await axios.get(`http://localhost:8080/user/${userId}`);
         setProfiile({ image: res.data.image });
-        console.log(profile);
+        // console.log(profile);
       } catch (error) {
         setError("Failed to load transaction history");
         console.error(error);
