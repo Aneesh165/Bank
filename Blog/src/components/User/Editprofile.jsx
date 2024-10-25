@@ -2,11 +2,11 @@ import axios from "axios";
 import Bank from "../../assets/Bank.png";
 import { FiLogOut } from "react-icons/fi";
 import { IoMdNotificationsOutline } from "react-icons/io";
-import { Link, useParams } from "react-router-dom";
+import { Link,  useNavigate } from "react-router-dom";
 import { useState } from "react";
 
 const EditProfile = () => {
-  const { id: userId } = useParams();
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -30,16 +30,22 @@ const EditProfile = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+  
+    const isEmpty = Object.values(formData).every((value) => value === "" || value === null);
+    if (isEmpty) {
+      console.log("No data provided. Please fill at least one field.");
+      return; 
+    }
+  
     const formDataToSubmit = new FormData();
     for (const key in formData) {
-      formDataToSubmit.append(key, formData[key]);
+      if (formData[key] !== "" && formData[key] !== null) { 
+        formDataToSubmit.append(key, formData[key]);
+      }
     }
-
+  
     try {
       const userId = localStorage.getItem("userId");
-      console.log(formDataToSubmit, "asddds");
-
       const response = await axios.put(
         `http://localhost:8080/user/profile/${userId}`,
         formDataToSubmit,
@@ -49,12 +55,14 @@ const EditProfile = () => {
           },
         }
       );
-
+  
       console.log("User updated successfully:", response.data);
+      navigate("/profile");
     } catch (error) {
       console.error("Error updating user:", error);
     }
   };
+  
 
   return (
     <section className="flex flex-col">
