@@ -87,7 +87,7 @@ const Viewhistory = () => {
                     <tr key={index}>
                       <td>{formattedDate}</td>
                       <td>{transaction.time}</td>
-                      <td>{transaction.detail}</td>
+                      <td>{transaction.transaction}</td>
                       <td>${transaction.amount}</td>
                       <td>${transaction.balance}</td>
                     </tr>
