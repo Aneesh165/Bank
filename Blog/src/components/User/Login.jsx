@@ -42,7 +42,7 @@ const Login = () => {
     <div>
       <section className="h-[100vh] flex bg-stone-400">
         <div className="h-[100%] w-[25%]">
-          <img className="h-[100%] object-right" src={Bank} alt="Bank Logo" />
+          <img className="h-[100%] object-right" src={Bank} alt="Bank Logo"/>
         </div>
         <form
           onSubmit={handleLogin}

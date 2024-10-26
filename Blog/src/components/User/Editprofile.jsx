@@ -5,6 +5,7 @@ import { IoMdNotificationsOutline } from "react-icons/io";
 import { Link,  useNavigate } from "react-router-dom";
 import { useState } from "react";
 
+
 const EditProfile = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({

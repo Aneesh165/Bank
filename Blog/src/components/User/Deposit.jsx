@@ -4,6 +4,8 @@ import { FiLogOut } from "react-icons/fi";
 import { IoMdNotificationsOutline } from "react-icons/io";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Deposit = () => {
   const [account, setAccount] = useState({
@@ -22,8 +24,6 @@ const Deposit = () => {
       try {
         const userId = localStorage.getItem("userId");
         const token = localStorage.getItem("token");
-
-        // console.log("Token:", token, "UserID:", userId);
 
         const response = await axios.get(
           `http://localhost:8080/user/deposit/${userId}`,
@@ -48,8 +48,6 @@ const Deposit = () => {
   }, []);
 
   const handleDeposit = async () => {
-    console.log(deposit);
-
     try {
       const userId = localStorage.getItem("userId");
       const response = await axios.post(
@@ -59,10 +57,11 @@ const Deposit = () => {
           transaction: "credit"
         }
       );
-      alert(response.data.message);
+
+      toast.success(response.data.message); // Show success toast
     } catch (error) {
       console.error("Error during deposit:", error);
-      alert("An error occurred during the deposit. Please try again.");
+      toast.error("An error occurred during the deposit. Please try again."); // Show error toast
     }
   };
 
@@ -70,6 +69,10 @@ const Deposit = () => {
     const value = e.target.value;
     setDeposit({ ...deposit, [e.target.name]: value ? Number(value) : 0 });
   };
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    
+};
 
   return (
     <section className="flex flex-col">
@@ -93,7 +96,7 @@ const Deposit = () => {
           <IoMdNotificationsOutline size={25} />
           <Link to="/deposit">Deposit</Link>
           <Link to="/withdrawl">Withdrawal</Link>
-          <Link to="/">
+          <Link to="/" onClick={handleLogout}>
             <FiLogOut size={25} />
           </Link>
         </div>
@@ -148,6 +151,7 @@ const Deposit = () => {
           >
             Deposit
           </button>
+          <ToastContainer />
         </form>
       </div>
     </section>

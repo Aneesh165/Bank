@@ -30,6 +30,10 @@ const Viewhistory = () => {
     };
     fetchUserHistory();
   }, []);
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    
+};
 
   return (
     <section className="flex flex-col">
@@ -53,7 +57,7 @@ const Viewhistory = () => {
           <IoMdNotificationsOutline size={25} />
           <Link to="/deposit">Deposit</Link>
           <Link to="/withdrawl">Withdrawal</Link>
-          <Link to="/">
+          <Link to="/" onClick={handleLogout}>
             <FiLogOut size={25} />
           </Link>
         </div>

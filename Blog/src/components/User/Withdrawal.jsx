@@ -4,6 +4,8 @@ import { FiLogOut } from "react-icons/fi";
 import { IoMdNotificationsOutline } from "react-icons/io";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Withdrawal = () => {
   const [account, setAccount] = useState({
@@ -21,8 +23,6 @@ const Withdrawal = () => {
         const userId = localStorage.getItem("userId");
         const token = localStorage.getItem("token");
 
-        // console.log("Token:", token, "UserID:", userId);
-
         const response = await axios.get(
           `http://localhost:8080/user/withdrawl/${userId}`,
           {
@@ -36,7 +36,6 @@ const Withdrawal = () => {
           accountNumber: response.data.AccountNumber,
           image: response.data.image,
         });
-        // console.log(account);
       } catch (error) {
         console.log("Error fetching account details:", error);
       }
@@ -46,8 +45,6 @@ const Withdrawal = () => {
   }, []);
 
   const handleWithdraw = async () => {
-    // console.log(withdrawal);
-
     try {
       const userId = localStorage.getItem("userId");
       const response = await axios.post(
@@ -57,10 +54,10 @@ const Withdrawal = () => {
           transaction: "debit"
         }
       );
-      alert(response.data.message);
+      toast.success(response.data.message);
     } catch (error) {
       console.error("Error during withdrawal:", error);
-      alert("An error occurred during the withdrawal. Please try again.");
+      toast.error("An error occurred during the withdrawal. Please try again.");
     }
   };
 
@@ -71,6 +68,10 @@ const Withdrawal = () => {
       [e.target.name]: value ? Number(value) : 0,
     });
   };
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    
+};
 
   return (
     <section className="flex flex-col">
@@ -87,7 +88,7 @@ const Withdrawal = () => {
         </div>
 
         <div className="my-auto w-[20%] text-end">
-          <Link to="/home">Home</Link>
+          <Link to="/home" onClick={handleLogout}>Home</Link>
         </div>
 
         <div className="my-auto flex justify-between w-[30%]">
@@ -151,6 +152,7 @@ const Withdrawal = () => {
           >
             Withdraw
           </button>
+          <ToastContainer />
         </form>
       </div>
     </section>

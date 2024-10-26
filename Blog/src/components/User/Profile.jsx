@@ -42,7 +42,10 @@ const Profile = () => {
 
     fetchAccountDetails();
   }, []);
-
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    
+};
 
   return (
     <section className='flex flex-col'>
@@ -53,7 +56,7 @@ const Profile = () => {
           <IoMdNotificationsOutline size={25} />
           <Link to='/deposit'>Deposit</Link>
           <Link to='/withdrawal'>Withdrawal</Link>
-          <Link to='/'>
+          <Link to='/' onClick={handleLogout}>
             <FiLogOut size={25} />
           </Link>
         </div>
