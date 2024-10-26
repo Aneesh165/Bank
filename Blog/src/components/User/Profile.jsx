@@ -8,6 +8,7 @@ import axios from 'axios';
 
 
 const Profile = () => {
+  
   const [profile, setProfile] = useState({
     name: "UserName",
     email: "email@example.com",
@@ -44,6 +45,7 @@ const Profile = () => {
   }, []);
   const handleLogout = () => {
     localStorage.removeItem('token');
+    localStorage.removeItem('userId');
     
 };
 
@@ -55,7 +57,7 @@ const Profile = () => {
         <div className='my-auto flex justify-between w-[30%]'>
           <IoMdNotificationsOutline size={25} />
           <Link to='/deposit'>Deposit</Link>
-          <Link to='/withdrawal'>Withdrawal</Link>
+          <Link to='/withdrawl'>Withdrawal</Link>
           <Link to='/' onClick={handleLogout}>
             <FiLogOut size={25} />
           </Link>
@@ -81,8 +83,8 @@ const Profile = () => {
             <h1 className='text-xl text-center mt-2'>{profile.name}</h1>
           </div>
 
-          <div className='h-[320px] w-[430px] flex justify-between mt-8'>
-            <div className='flex flex-col justify-evenly'>
+          <div className='h-[320px] w-[450px] flex justify-between mt-8'>
+            <div className='flex flex-col justify-evenly w-[60%]'>
               <div>
                 <h2 className='text-lg font-semibold'>Email</h2>
                 <h3 className='text-green-800 pl-9 text-md'>{profile.email}</h3>

@@ -45,8 +45,8 @@ const ViewUserProfile = () => {
             <h1 className="text-xl text-center mt-2">{user.name}</h1>
           </div>
 
-          <div className="h-[320px] w-[430px] flex justify-between mt-8">
-            <div className="flex flex-col justify-evenly">
+          <div className="h-[320px] w-[480px] flex justify-between mt-8">
+            <div className="flex flex-col justify-evenly w-[50%]">
               <div>
                 <h2 className="text-lg font-semibold">Email</h2>
                 <h3 className="text-green-800 pl-9 text-md">{user.email}</h3>
@@ -65,7 +65,7 @@ const ViewUserProfile = () => {
               </div>
             </div>
 
-            <div className="flex flex-col justify-evenly">
+            <div className="flex flex-col justify-evenly pl-6 w-[40%]">
               <div>
                 <h2 className="text-lg font-semibold">User Name</h2>
                 <h3 className="text-green-800 pl-9 text-md">{user.name}</h3>

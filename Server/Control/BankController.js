@@ -106,7 +106,7 @@ export const GetUserById = async (req, res) => {
         return res.status(404).json({ message: "User not found" });
       }
   
-      res.status(200).json({ transactions: user.transactions });
+      res.status(200).json({ transactions: user.transactions,userDetail: user });
     } catch (error) {
       console.error("Error fetching transaction history:", error);
       res.status(500).json({ message: "Server error", error: error.message });

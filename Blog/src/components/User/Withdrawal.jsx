@@ -2,12 +2,14 @@ import { useEffect, useState } from "react";
 import Bank from "../../assets/Bank.png";
 import { FiLogOut } from "react-icons/fi";
 import { IoMdNotificationsOutline } from "react-icons/io";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const Withdrawal = () => {
+
+  const navigate=useNavigate()
   const [account, setAccount] = useState({
     accountNumber: "xxxxxxxxxxxxx",
     image: "http://",
@@ -55,6 +57,9 @@ const Withdrawal = () => {
         }
       );
       toast.success(response.data.message);
+      setTimeout(() => {
+        navigate('/home');
+      }, 3600);
     } catch (error) {
       console.error("Error during withdrawal:", error);
       toast.error("An error occurred during the withdrawal. Please try again.");
@@ -70,8 +75,10 @@ const Withdrawal = () => {
   };
   const handleLogout = () => {
     localStorage.removeItem('token');
+    localStorage.removeItem('userId');
     
 };
+
 
   return (
     <section className="flex flex-col">
@@ -137,7 +144,7 @@ const Withdrawal = () => {
               $
             </span>
             <input
-              type="number"
+              type="text"
               name="amount"
               placeholder="0"
               value={withdrawal.amount}

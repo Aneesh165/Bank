@@ -32,6 +32,7 @@ const Viewhistory = () => {
   }, []);
   const handleLogout = () => {
     localStorage.removeItem('token');
+    localStorage.removeItem('userId');
     
 };
 

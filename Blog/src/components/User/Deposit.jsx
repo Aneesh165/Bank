@@ -2,12 +2,14 @@ import { useState, useEffect } from "react";
 import Bank from "../../assets/Bank.png";
 import { FiLogOut } from "react-icons/fi";
 import { IoMdNotificationsOutline } from "react-icons/io";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const Deposit = () => {
+
+  const navigate=useNavigate()
   const [account, setAccount] = useState({
     accountNumber: "xxxxxxxxxxxxx",
     image:
@@ -58,10 +60,14 @@ const Deposit = () => {
         }
       );
 
-      toast.success(response.data.message); // Show success toast
+      toast.success(response.data.message);
+      setTimeout(() => {
+        navigate('/home');
+      }, 3600);
+
     } catch (error) {
       console.error("Error during deposit:", error);
-      toast.error("An error occurred during the deposit. Please try again."); // Show error toast
+      toast.error("An error occurred during the deposit. Please try again."); 
     }
   };
 
@@ -71,6 +77,7 @@ const Deposit = () => {
   };
   const handleLogout = () => {
     localStorage.removeItem('token');
+    localStorage.removeItem('userId');
     
 };
 
@@ -136,7 +143,7 @@ const Deposit = () => {
               $
             </span>
             <input
-              type="number"
+              type="text"
               name="amount"
               placeholder="0"
               value={deposit.amount}

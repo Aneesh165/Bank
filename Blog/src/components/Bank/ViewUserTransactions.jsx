@@ -6,6 +6,7 @@ import axios from "axios";
 const ViewUserTransactions = () => {
   const { userId } = useParams();
   const [transactions, setTransactions] = useState([]);
+  const [user, setUser] = useState();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -20,6 +21,8 @@ const ViewUserTransactions = () => {
           }
         );
         setTransactions(response.data.transactions);
+        setUser(response.data.userDetail)
+
       } catch (err) {
         console.error("Error fetching transactions:", err);
         setError("Failed to load transactions");
@@ -49,10 +52,10 @@ const ViewUserTransactions = () => {
         <div className="flex items-center mb-6">
           <img
             className="rounded-full w-[70px] h-[70px] object-cover"
-            src="https://images.pexels.com/photos/771742/pexels-photo-771742.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
+            src={`http://localhost:8080/uploads/${user.image}`}
             alt="User Profile"
           />
-          <h2 className="ml-4 text-xl font-semibold">Jeni</h2>
+          <h2 className="ml-4 text-xl font-semibold">{user.name}</h2>
         </div>
 
         <table className="min-w-full text-left border-collapse">
@@ -60,7 +63,7 @@ const ViewUserTransactions = () => {
             <tr className="border-y-2 border-black">
               <th className="px-4 py-2 font-semibold">Date</th>
               <th className="px-4 py-2 font-semibold">Time</th>
-              <th className="px-4 py-2 font-semibold">Details</th>
+              <th className="px-4 py-2 font-semibold ">Details</th>
               <th className="px-4 py-2 font-semibold">Amount</th>
               <th className="px-4 py-2 font-semibold">Balance</th>
             </tr>
