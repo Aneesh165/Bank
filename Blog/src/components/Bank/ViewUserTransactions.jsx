@@ -1,30 +1,43 @@
-import React, { useState } from 'react';
-import Bank from '../../assets/Bank.png'; 
+import React, { useEffect, useState } from "react";
+import Bank from "../../assets/Bank.png";
+import { useParams } from "react-router-dom";
+import axios from "axios";
 
 const ViewUserTransactions = () => {
-  const [transactions] = useState([
-    {
-      date: '12/5/2024',
-      time: '12:30',
-      details: 'Debit',
-      amount: 1000.00,
-      balance: 20000.00,
-    },
-    {
-      date: '13/5/2024',
-      time: '14:15',
-      details: 'Credit',
-      amount: 500.00,
-      balance: 20500.00,
-    },
-    {
-      date: '14/5/2024',
-      time: '11:45',
-      details: 'Debit',
-      amount: 700.00,
-      balance: 19800.00,
-    },
-  ]);
+  const { userId } = useParams();
+  const [transactions, setTransactions] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchTransactions = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        const response = await axios.get(
+          `http://localhost:8080/admin/viewtransaction/${userId}`,
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
+        setTransactions(response.data.transactions);
+      } catch (err) {
+        console.error("Error fetching transactions:", err);
+        setError("Failed to load transactions");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchTransactions();
+  }, [userId]);
+
+  if (loading) {
+    return <div>Loading transactions...</div>;
+  }
+
+  if (error) {
+    return <div>{error}</div>;
+  }
 
   return (
     <div className="min-h-screen flex">
@@ -36,7 +49,7 @@ const ViewUserTransactions = () => {
         <div className="flex items-center mb-6">
           <img
             className="rounded-full w-[70px] h-[70px] object-cover"
-            src="https://images.pexels.com/photos/771742/pexels-photo-771742.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500" // Replace with actual user image
+            src="https://images.pexels.com/photos/771742/pexels-photo-771742.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
             alt="User Profile"
           />
           <h2 className="ml-4 text-xl font-semibold">Jeni</h2>
@@ -53,15 +66,20 @@ const ViewUserTransactions = () => {
             </tr>
           </thead>
           <tbody>
-            {transactions.map((transaction, index) => (
-              <tr key={index} >
-                <td className="px-4 py-2">{transaction.date}</td>
-                <td className="px-4 py-2">{transaction.time}</td>
-                <td className="px-4 py-2">{transaction.details}</td>
-                <td className="px-4 py-2">{transaction.amount.toFixed(2)}</td>
-                <td className="px-4 py-2">{transaction.balance.toFixed(2)}</td>
-              </tr>
-            ))}
+            {transactions.map((transaction, index) => {
+              const transactionDate = new Date(transaction.date);
+              const formattedDate = transactionDate.toLocaleDateString("en-GB");
+
+              return (
+                <tr key={index}>
+                  <td>{formattedDate}</td>
+                  <td>{transaction.time}</td>
+                  <td>{transaction.transaction}</td>
+                  <td>${transaction.amount}</td>
+                  <td>${transaction.balance}</td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
       </div>

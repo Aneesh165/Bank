@@ -1,17 +1,32 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useParams } from "react-router-dom"; 
+import axios from "axios";
 import Bank from "../../assets/Bank.png";
 
 const ViewUserProfile = () => {
-  const [user] = useState({
-    name: "John Doe",
-    email: "johndoe@example.com",
-    address: "123 Main St, Cityville",
-    age: "29",
-    aadhar: "1234-5678-9123",
-    dob: "1995-05-21",
-    phoneNumber: "+123 456 7890",
-    pan: "ABCDE1234F",
-  });
+  const { userId } = useParams(); 
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        const response = await axios.get(
+          `http://localhost:8080/admin/viewusers/${userId}`,
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
+        setUser(response.data.user);
+      } catch (error) {
+        console.error("Error fetching user details:", error);
+      }
+    };
+
+    fetchUser();
+  }, [userId]);
+
+  if (!user) return <p>Loading...</p>;
 
   return (
     <div>
@@ -20,18 +35,17 @@ const ViewUserProfile = () => {
           <img className="h-[100%] object-right" src={Bank} alt="Bank" />
         </div>
 
-        <div className="w-[550px] ml-20 h-[580px] mt-16 bg-sky-300 rounded-3xl flex items-center flex-col">
+        <div className="w-[580px] ml-20 h-[590px] pt-7 mt-16 bg-sky-300 rounded-3xl flex items-center flex-col">
           <div className="h-[170px] w-[150px] mt-4">
             <img
               className="rounded-full w-[100%] h-[150px] object-cover object-top"
-              src="https://images.pexels.com/photos/771742/pexels-photo-771742.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
+              src={`http://localhost:8080/uploads/${user.image}` || "https://via.placeholder.com/150"}
               alt="profile"
             />
             <h1 className="text-xl text-center mt-2">{user.name}</h1>
           </div>
 
           <div className="h-[320px] w-[430px] flex justify-between mt-8">
-            
             <div className="flex flex-col justify-evenly">
               <div>
                 <h2 className="text-lg font-semibold">Email</h2>
@@ -47,7 +61,7 @@ const ViewUserProfile = () => {
               </div>
               <div>
                 <h2 className="text-lg font-semibold">Aadhar</h2>
-                <h3 className="text-green-800 pl-9 text-md">{user.aadhar}</h3>
+                <h3 className="text-green-800 pl-9 text-md">{user.adhar}</h3>
               </div>
             </div>
 
@@ -60,13 +74,13 @@ const ViewUserProfile = () => {
                 <h2 className="text-lg font-semibold">DOB</h2>
                 <h3 className="text-green-800 pl-9 text-md">{user.dob}</h3>
               </div>
-              <div>
-                <h2 className="text-lg font-semibold">Phone Number</h2>
-                <h3 className="text-green-800 pl-9 text-md">{user.phoneNumber}</h3>
+              <div >
+                <h2 className="text-lg font-semibold">Phone No.</h2>
+                <h3 className="text-green-800 pl-9 text-md">{user.phone}</h3>
               </div>
               <div>
                 <h2 className="text-lg font-semibold">PAN No.</h2>
-                <h3 className="text-green-800 pl-9 text-md">{user.pan}</h3>
+                <h3 className="text-green-800 pl-9 text-md">{user.pancard}</h3>
               </div>
             </div>
           </div>

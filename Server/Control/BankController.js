@@ -59,7 +59,7 @@ export const AdminLogin = async (req, res) => {
   }
 };
 
-export const GetAllUsers = async (req, res) => {
+export const GetUsersCount = async (req, res) => {
     try {
         const users = await User.find();
         const UserCount= await User.countDocuments();
@@ -68,3 +68,47 @@ export const GetAllUsers = async (req, res) => {
         res.status(500).json({ message: 'Error fetching users', error: error.message });
     }
 };
+
+
+export const GetAllUsers = async (req, res) => {
+    try {
+        const users = await User.find().select("-password"); 
+        const UserCount = await User.countDocuments();
+        
+        res.status(200).json({ No_of_Users: UserCount, Users: users });
+    } catch (error) {
+        console.error("Error fetching users:", error);
+        res.status(500).json({ message: 'Error fetching users', error: error.message });
+    }
+};
+
+export const GetUserById = async (req, res) => {
+    const userId = req.params.id;
+    try {
+      const user = await User.findById(userId).select("-password");
+      if (!user) {
+        return res.status(404).json({ message: "User not found" });
+      }
+      res.status(200).json({ user });
+    } catch (error) {
+      console.error("Error fetching user by ID:", error);
+      res.status(500).json({ message: "Error fetching user details", error: error.message });
+    }
+  };
+
+  export const getUserTransactionById = async (req, res) => {
+    const userId = req.params.id;
+  
+    try {
+      const user = await User.findById(userId).populate('transactions');
+  
+      if (!user) {
+        return res.status(404).json({ message: "User not found" });
+      }
+  
+      res.status(200).json({ transactions: user.transactions });
+    } catch (error) {
+      console.error("Error fetching transaction history:", error);
+      res.status(500).json({ message: "Server error", error: error.message });
+    }
+  };

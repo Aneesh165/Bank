@@ -34,8 +34,8 @@ const App = () => {
           <Route path='/banklogin' element={<BankLogin/>}></Route>
           <Route path='/bankhome' element={<BankHome/>}></Route>
           <Route path='/viewusers' element={<ViewUsers/>}></Route>
-          <Route path='/viewusertansactions' element={<ViewUserTransactions/>}></Route>
-          <Route path='/viewuserprofile' element={<ViewUserProfile/>}></Route>
+          <Route path='/viewusertansactions/:userId' element={<ViewUserTransactions/>}></Route>
+          <Route path='/viewuserprofile/:userId' element={<ViewUserProfile/>}></Route>
           
          
         </Routes>
