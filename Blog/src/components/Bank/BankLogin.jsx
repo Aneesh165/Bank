@@ -6,10 +6,13 @@ import Bank from "../../assets/Bank.png";
 const BankLogin = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setError("");
     try {
       const response = await axios.post("http://localhost:8080/admin/login", {
         username,
@@ -22,6 +25,7 @@ const BankLogin = () => {
         navigate("/bankhome");
       } else {
         console.log("Login failed:", response.data.message);
+        setError(response.data.message)
       }
     } catch (error) {
       console.error(
@@ -43,6 +47,8 @@ const BankLogin = () => {
         >
           <div className="flex flex-col justify-evenly gap-4 bg-sky-300 w-[50%] mt-24 h-[75%] mx-auto">
             <h1 className="text-5xl font-semibold mx-auto">Login</h1>
+
+            {error && <p className="text-red-500 text-center">{error}</p>}
             <input
               className="w-3/4 text-xl h-14 mx-auto bg-inherit border-b-2 border-black placeholder:text-black"
               type="text"

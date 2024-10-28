@@ -1,16 +1,20 @@
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom"; 
+import { useNavigate, useParams } from "react-router-dom"; 
 import axios from "axios";
 import Bank from "../../assets/Bank.png";
 
 const ViewUserProfile = () => {
   const { userId } = useParams(); 
   const [user, setUser] = useState(null);
+  const navigate=useNavigate();
 
   useEffect(() => {
     const fetchUser = async () => {
       try {
         const token = localStorage.getItem("token");
+        if(!token){
+          navigate('/banklogin')
+        }
         const response = await axios.get(
           `http://localhost:8080/admin/viewusers/${userId}`,
           {

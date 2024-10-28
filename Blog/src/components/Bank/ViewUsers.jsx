@@ -1,17 +1,21 @@
 import { useState, useEffect } from "react";
 import Bank from "../../assets/Bank.png";
 import { FiSearch } from "react-icons/fi";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const ViewUsers = () => {
   const [users, setUsers] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
+  const navigate =useNavigate()
 
   useEffect(() => {
     const fetchUsers = async () => {
       try {
         const token = localStorage.getItem("token");
+        if(!token){
+          navigate('/banklogin')
+        }
         const response = await axios.get(
           "http://localhost:8080/admin/viewusers",
           {

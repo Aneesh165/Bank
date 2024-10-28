@@ -1,5 +1,5 @@
 import { FiLogOut } from "react-icons/fi";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Bank from '../../assets/Bank.png'
 import logo from '../../assets/logo.png'
 import { useEffect, useState } from "react";
@@ -7,11 +7,17 @@ import axios from 'axios';
 
 const BankHome = () => {
   const [userCount, setUserCount] = useState(0); 
+  const navigate = useNavigate()
 
   
   useEffect(() => {
     const fetchUserCount = async () => {
+
       const token = localStorage.getItem('token');
+
+      if(!token){
+        navigate('/banklogin')
+      }
       try {
         const response = await axios.get('http://localhost:8080/admin/home',{
           headers: {

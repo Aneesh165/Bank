@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Bank from "../../assets/Bank.png";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 
 const ViewUserTransactions = () => {
@@ -9,11 +9,15 @@ const ViewUserTransactions = () => {
   const [user, setUser] = useState();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const navigate =useNavigate()
 
   useEffect(() => {
     const fetchTransactions = async () => {
       try {
         const token = localStorage.getItem("token");
+        if(!token){
+          navigate('/banklogin')
+        }
         const response = await axios.get(
           `http://localhost:8080/admin/viewtransaction/${userId}`,
           {
