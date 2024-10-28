@@ -51,19 +51,33 @@ const Register = () => {
     }
 
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const phonePattern = /^\d{10}$/;
+    const passwordPattern = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    const aadhaarPattern = /^\d{12}$/;
+    const panPattern = /^[A-Z]{5}\d{4}[A-Z]$/;
+
     if (!emailPattern.test(formData.email)) {
       alert("Please enter a valid email address.");
       return;
     }
 
-    const phonePattern = /^\d{10}$/;
     if (!phonePattern.test(formData.phone)) {
       alert("Please enter a valid phone number (10 digits).");
       return;
     }
 
-    if (formData.password.length < 4) {
-      alert("Password must be at least 8 characters long.");
+    if (!passwordPattern.test(formData.password)) {
+      alert("Password must contain at least 8 characters, including an uppercase letter, a number, and a special character.");
+      return;
+    }
+
+    if (!aadhaarPattern.test(formData.adhar)) {
+      alert("Please enter a valid 12-digit Aadhaar number.");
+      return;
+    }
+
+    if (!panPattern.test(formData.pancard)) {
+      alert("Please enter a valid PAN card number (e.g., ABCDE1234F).");
       return;
     }
 
@@ -77,8 +91,9 @@ const Register = () => {
       alert("Please enter a valid initial amount greater than zero.");
       return;
     }
-    if(!image){
-      alert("please choose a image")
+
+    if (!image) {
+      alert("Please choose an image.");
       return;
     }
 
