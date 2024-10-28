@@ -2,7 +2,7 @@ import Bank from '../../assets/Bank.png';
 import { FiLogOut } from 'react-icons/fi';
 import { IoMdNotificationsOutline } from 'react-icons/io';
 import { FaRegEdit } from 'react-icons/fa';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 
@@ -20,12 +20,17 @@ const Profile = () => {
     pancard: "XXXXX1234X",
     image:'https://images.pexels.com/photos/771742/pexels-photo-771742.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500'
   });
+  const navigate =useNavigate()
 
   useEffect(() => {
     const fetchAccountDetails = async () => {
       try {
         const userId = localStorage.getItem("userId");
         const token = localStorage.getItem("token");
+
+        if(!token && !userId){
+          navigate('/')
+        }
         // console.log("Token:", token, "UserID:", userId);
         const response = await axios.get(`http://localhost:8080/user/profile/${userId}`,
           {

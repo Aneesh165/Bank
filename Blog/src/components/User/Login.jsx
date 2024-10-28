@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import Bank from "../../assets/Bank.png";
 import { Link, useNavigate } from "react-router-dom";
@@ -41,14 +41,14 @@ const Login = () => {
   return (
     <div>
       <section className="h-[100vh] flex bg-stone-400">
-        <div className="h-[100%] w-[25%]">
+        <div className="h-[100%] w-[500px]">
           <img className="h-[100%] object-right" src={Bank} alt="Bank Logo"/>
         </div>
         <form
           onSubmit={handleLogin}
           className="w-[80%] h-[100%] bg-white my-auto"
         >
-          <div className="flex flex-col justify-evenly gap-4 bg-sky-300 w-[60%] mt-24 h-[75%] mx-auto">
+        <div className="flex flex-col justify-evenly gap-4 bg-sky-300 w-[60%] mt-24 h-[75%] mx-auto">
             <h1 className="text-5xl font-semibold mx-auto">Login</h1>
 
             {error && <p className="text-red-500 text-center">{error}</p>}
