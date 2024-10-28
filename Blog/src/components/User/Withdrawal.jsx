@@ -7,7 +7,9 @@ import axios from "axios";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
+
 const Withdrawal = () => {
+ 
 
   const navigate=useNavigate()
   const [account, setAccount] = useState({
@@ -24,6 +26,9 @@ const Withdrawal = () => {
       try {
         const userId = localStorage.getItem("userId");
         const token = localStorage.getItem("token");
+        if(!token && !userId){
+          navigate('/')
+        }
 
         const response = await axios.get(
           `http://localhost:8080/user/withdrawl/${userId}`,

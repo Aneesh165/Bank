@@ -27,6 +27,10 @@ const Deposit = () => {
         const userId = localStorage.getItem("userId");
         const token = localStorage.getItem("token");
 
+        if(!userId && !token){
+          navigate('/')
+        }
+
         const response = await axios.get(
           `http://localhost:8080/user/deposit/${userId}`,
           {
