@@ -195,3 +195,21 @@ export const EditUserProfile = async(req,res)=>{
     console.log(error);
   }
 }
+
+// export const authenticate =async(req,res) =>{
+
+//   const {id} = req.body
+
+
+//   try {
+
+//     let userAuth = User.findOne({id})
+
+//     res.json({message :"user is valid"})
+    
+//   } catch (error) {
+//     console.log(error);
+    
+//   }
+
+// }

@@ -2,10 +2,11 @@ import { useEffect, useState } from "react";
 import Bank from "../../assets/Bank.png";
 import { FiLogOut } from "react-icons/fi";
 import { IoMdNotificationsOutline } from "react-icons/io";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const Viewhistory = () => {
+  const navigate =useNavigate()
   const [history, setHistory] = useState([]);
   const [error, setError] = useState(null);
   const [profile, setProfiile] = useState({ image: "" });
@@ -14,6 +15,9 @@ const Viewhistory = () => {
     const fetchUserHistory = async () => {
       try {
         const userId = localStorage.getItem("userId");
+        if(!userId ){
+          navigate('/')
+        }
 
         const response = await axios.get(
           `http://localhost:8080/user/history/${userId}`

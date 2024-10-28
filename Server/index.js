@@ -25,6 +25,7 @@ mongoose.connect(process.env.Mongo_Url)
 app.use('/user', UserRouter);
 app.use('/admin', BankRouter);
 
+
 app.listen(process.env.PORT, () => {
   console.log(`Connected to Port: ${process.env.PORT}`);
 });

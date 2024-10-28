@@ -1,5 +1,5 @@
 import express from "express";
-import {AddUser,EditUserProfile,uploadImage,UserDeposit,UserHome,UserLogin,UserProfile,UserWithdraw,} from "../Control/Usercontroller.js";
+import {AddUser,EditUserProfile,uploadImage,UserDeposit,UserHome,UserLogin,UserProfile,UserWithdraw,} from "../Control/UserController.js";
 import { getUserTransactionHistory, UserTransactions } from "../Control/TransactionController.js";
 
 const router = express.Router();
