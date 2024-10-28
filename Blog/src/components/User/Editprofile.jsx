@@ -3,7 +3,7 @@ import Bank from "../../assets/Bank.png";
 import { FiLogOut } from "react-icons/fi";
 import { IoMdNotificationsOutline } from "react-icons/io";
 import { Link,  useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 
 const EditProfile = () => {
@@ -20,6 +20,15 @@ const EditProfile = () => {
     pan: "",
     image: null,
   });
+
+  useEffect(()=>{
+    const userId = localStorage.getItem("userId");
+    if(!userId ){
+      navigate('/')
+    }
+  },[])
+
+  
 
   const handleChange = (e) => {
     const { name, value, type, files } = e.target;
@@ -47,6 +56,7 @@ const EditProfile = () => {
   
     try {
       const userId = localStorage.getItem("userId");
+
       const response = await axios.put(
         `http://localhost:8080/user/profile/${userId}`,
         formDataToSubmit,

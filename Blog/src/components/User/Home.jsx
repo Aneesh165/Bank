@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import Bank from "../../assets/Bank.png";
 import { FiLogOut } from "react-icons/fi";
 import { IoMdNotificationsOutline } from "react-icons/io";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const Home = () => {
@@ -13,13 +13,20 @@ const Home = () => {
       "https://images.pexels.com/photos/771742/pexels-photo-771742.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
   });
 
+  const navigate = useNavigate()
+
   useEffect(() => {
     const fetchAccountDetails = async () => {
       try {
+
         const userId = localStorage.getItem("userId");
         const token = localStorage.getItem("token");
 
         // console.log("Token:", token, "UserID:", userId);
+
+        if(!userId && !token){
+          navigate('/')
+        }
 
         const response = await axios.get(
           `http://localhost:8080/user/${userId}`,
