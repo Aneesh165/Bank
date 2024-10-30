@@ -8,7 +8,7 @@ import Withdrawal from './components/User/Withdrawal'
 import Profile from './components/User/Profile'
 import Editprofile from './components/User/Editprofile'
 import Viewhistory from './components/User/Viewhistory'
-import More from './components/User/More'
+// import More from './components/User/More'
 import BankLogin from './components/Bank/BankLogin'
 import BankHome from './components/Bank/Bankhome'
 import ViewUser from './components/Bank/ViewUsers'
@@ -30,7 +30,7 @@ const App = () => {
           <Route path='/profile' element={<Profile/>}></Route>
           <Route path='/editprofile' element={<Editprofile/>}></Route>
           <Route path='/viewhistory' element={<Viewhistory/>}></Route>
-          <Route path='/more' element={<More/>}></Route>
+          {/* <Route path='/more' element={<More/>}></Route> */}
           <Route path='/banklogin' element={<BankLogin/>}></Route>
           <Route path='/bankhome' element={<BankHome/>}></Route>
           <Route path='/viewusers' element={<ViewUsers/>}></Route>

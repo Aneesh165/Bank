@@ -110,7 +110,7 @@ const Home = () => {
               <Link to="/viewhistory">View History</Link>
             </h2>
             <h3>
-              <Link to="/more">More..</Link>
+              {/* <Link to="/more">More..</Link> */}
             </h3>
           </div>
         </div>

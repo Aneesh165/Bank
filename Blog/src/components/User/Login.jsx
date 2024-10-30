@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import Bank from "../../assets/Bank.png";
 import { Link, useNavigate } from "react-router-dom";
+import { ToastContainer,toast } from "react-toastify";
 
 const Login = () => {
   const [username, setUsername] = useState("");
@@ -28,7 +29,10 @@ const Login = () => {
         localStorage.setItem("token", response.data.token);
         localStorage.setItem("userId", response.data.userId);
         console.log("Login successful!");
-        navigate("/home");
+        toast('Login Successfull')
+        setTimeout(() => {
+          navigate("/home");
+        }, 1500);
       } else {
         setError(response.data.message);
       }
@@ -43,6 +47,7 @@ const Login = () => {
       <section className="h-[100vh] flex bg-stone-400">
         <div className="h-[100%] w-[500px]">
           <img className="h-[100%] object-right" src={Bank} alt="Bank Logo"/>
+          <ToastContainer/>
         </div>
         <form
           onSubmit={handleLogin}
@@ -54,14 +59,15 @@ const Login = () => {
             {error && <p className="text-red-500 text-center">{error}</p>}
 
             <input
-              className="w-3/4 text-xl h-14 mx-auto bg-inherit border-b-2 border-black placeholder:text-black"
+              className="w-3/4 text-xl h-14 mx-auto bg-inherit border-b-2 border-black placeholder:text-black focus:outline-none"
               type="text"
               placeholder="Username"
               value={username}
+              
               onChange={(e) => setUsername(e.target.value)}
             />
             <input
-              className="w-3/4 text-xl h-14 mx-auto bg-inherit border-b-2 border-black placeholder:text-black"
+              className="w-3/4 text-xl h-14 mx-auto bg-inherit border-b-2 border-black placeholder:text-black focus:outline-none"
               type="password"
               placeholder="Password"
               value={password}

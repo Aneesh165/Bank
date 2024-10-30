@@ -56,7 +56,7 @@ const ViewUsers = () => {
             <thead>
               <tr>
                 <th className="text-left pr-6">Profile</th>
-                <th className="text-left">Users Name</th>
+                <th className="text-left"> Name</th>
                 <th>Actions</th>
               </tr>
             </thead>

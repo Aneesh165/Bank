@@ -2,10 +2,15 @@ import { useState } from 'react';
 import axios from 'axios';
 import Bank from '../../assets/Bank.png';
 import {Link, useNavigate} from 'react-router-dom'
+import { ToastContainer , toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
+
+
 
 const Register = () => {
 
   const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     name: '',
     username: '',
@@ -37,7 +42,7 @@ const Register = () => {
       if (file.type.startsWith('image/')) {
         setImage(file);
       } else {
-        alert("Please upload a valid image file.");
+        toast("Please upload a valid image file.");
       }
     }
   };
@@ -46,7 +51,7 @@ const Register = () => {
     e.preventDefault();
 
     if (!formData.name || !formData.username || !formData.address || !formData.email || !formData.password || !formData.confirmPassword) {
-      alert("Please fill in all required fields.");
+      toast('Please fill all the required fields')
       return;
     }
 
@@ -57,43 +62,43 @@ const Register = () => {
     const panPattern = /^[A-Z]{5}\d{4}[A-Z]$/;
 
     if (!emailPattern.test(formData.email)) {
-      alert("Please enter a valid email address.");
+      toast("Please enter a valid email address.");
       return;
     }
 
     if (!phonePattern.test(formData.phone)) {
-      alert("Please enter a valid phone number (10 digits).");
+      toast("Please enter a valid phone number (10 digits).");
       return;
     }
 
     if (!passwordPattern.test(formData.password)) {
-      alert("Password must contain at least 8 characters, including an uppercase letter, a number, and a special character.");
+      toast("Password must contain at least 8 characters, including an uppercase letter, a number, and a special character.");
       return;
     }
 
     if (!aadhaarPattern.test(formData.adhar)) {
-      alert("Please enter a valid 12-digit Aadhaar number.");
+      toast("Please enter a valid 12-digit Aadhaar number.");
       return;
     }
 
     if (!panPattern.test(formData.pancard)) {
-      alert("Please enter a valid PAN card number (e.g., ABCDE1234F).");
+      toast("Please enter a valid PAN card number (e.g., ABCDE1234F).");
       return;
     }
 
     if (formData.password !== formData.confirmPassword) {
-      alert("Passwords do not match.");
+      toast("Passwords do not match.");
       return;
     }
 
     const initialamount = parseFloat(formData.initialamount);
     if (isNaN(initialamount) || initialamount <= 0) {
-      alert("Please enter a valid initial amount greater than zero.");
+      toast("Please enter a valid initial amount greater than zero.");
       return;
     }
 
     if (!image) {
-      alert("Please choose an image.");
+      toast("Please choose an image.");
       return;
     }
 
@@ -111,11 +116,16 @@ const Register = () => {
           'Content-Type': 'multipart/form-data',
         },
       });
-      console.log(response.data); 
-      navigate('/');
+      console.log(response.data.message); 
+
+      toast.success(response.data.message)
+      setTimeout(() => {
+        navigate('/');
+      }, 1600);
+      
     } catch (error) {
       if (error.response && error.response.status === 409) {
-        alert(error.response.data.error); 
+        toast(error.response.data.error); 
       } else {
         console.error('Error:', error.response ? error.response.data : error.message);
       }    }
@@ -124,6 +134,10 @@ const Register = () => {
   return (
     <section className='h-[100vh] flex'>
       <div className='h-[100%] w-[25%]'>
+      <ToastContainer className="toaster-container"
+          position="top-left"
+          pauseOnHover
+          closeOnClick/>
         <img className='h-[100%] object-right' src={Bank} alt="Bank" />
       </div>
       <form className='w-[75%] h-[100%] bg-white flex justify-around' onSubmit={handleSubmit}>
@@ -131,27 +145,27 @@ const Register = () => {
           <h1 className='mt-2 text-5xl text-center'>Register</h1>
           <div className='flex justify-around mt-2 h-[70%] relative'>
             <div className='flex flex-col justify-evenly h-[88%]'>
-              <input type="text" name="name" value={formData.name} onChange={handleChange} className="w-30 text-lg h-14 mx-auto bg-inherit border-b-2 border-black placeholder:text-black" placeholder='Name' />
-              <textarea name="address" value={formData.address} onChange={handleChange} className="w-[280px] text-lg h-28 mx-auto bg-inherit border-2 border-black placeholder:text-black resize-y" placeholder='Address' />
-              <input type="text" name="phone" value={formData.phone} onChange={handleChange} className="w-30 text-lg h-14 mx-auto bg-inherit border-b-2 border-black placeholder:text-black" placeholder='Phone Number' />
-              <input type="text" name="adhar" value={formData.adhar} onChange={handleChange} className="w-30 text-lg h-14 mx-auto bg-inherit border-b-2 border-black placeholder:text-black" placeholder='Adhar Number' />
-              <input type="password" name="password" value={formData.password} onChange={handleChange} className="w-30 text-lg h-14 mx-auto bg-inherit border-b-2 border-black placeholder:text-black" placeholder='Password' />
+              <input type="text" name="name" value={formData.name} onChange={handleChange} className="w-30 text-lg h-14 mx-auto bg-inherit border-b-2 border-black placeholder:text-black focus:outline-none" placeholder='Name' />
+              <textarea name="address" value={formData.address} onChange={handleChange} className="w-[280px] text-lg h-28 mx-auto bg-inherit border-2 border-black placeholder:text-black resize-y focus:outline-none" placeholder='Address' />
+              <input type="text" name="phone" value={formData.phone} onChange={handleChange} className="w-30 text-lg h-14 mx-auto bg-inherit border-b-2 border-black placeholder:text-black focus:outline-none" placeholder='Phone Number' />
+              <input type="text" name="adhar" value={formData.adhar} onChange={handleChange} className="w-30 text-lg h-14 mx-auto bg-inherit border-b-2 border-black placeholder:text-black focus:outline-none" placeholder='Adhar Number' />
+              <input type="password" name="password" value={formData.password} onChange={handleChange} className="w-30 text-lg h-14 mx-auto bg-inherit border-b-2 border-black placeholder:text-black focus:outline-none" placeholder='Password' />
               <div className='flex flex-col absolute bottom-0'>
                 <label htmlFor="">Upload image</label>
-                <input type='file' accept='image/*' className='w-30' onChange={handleFileChange} />
+                <input  type='file' accept='image/*' className='w-30' onChange={handleFileChange} />
               </div>
             </div>
             <div className='flex flex-col justify-evenly h-[100%]'>
-              <input type="text" name="username" value={formData.username} onChange={handleChange} className="w-30 text-lg h-14 mx-auto bg-inherit border-b-2 border-black placeholder:text-black" placeholder='User Name' />
-              <input type="email" name="email" value={formData.email} onChange={handleChange} className="w-30 text-lg h-14 mx-auto bg-inherit border-b-2 border-black placeholder:text-black" placeholder='Email' />
-              <input type="text" name="age" value={formData.age} onChange={handleChange} className="w-30 text-lg h-14 mx-auto bg-inherit border-b-2 border-black placeholder:text-black" placeholder='Age' />
+              <input type="text" name="username" value={formData.username} onChange={handleChange} className="w-30 text-lg h-14 mx-auto bg-inherit border-b-2 border-black placeholder:text-black focus:outline-none" placeholder='User Name' />
+              <input type="email" name="email" value={formData.email} onChange={handleChange} className="w-30 text-lg h-14 mx-auto bg-inherit border-b-2 border-black placeholder:text-black focus:outline-none" placeholder='Email' />
+              <input type="text" name="age" value={formData.age} onChange={handleChange} className="w-30 text-lg h-14 mx-auto bg-inherit border-b-2 border-black placeholder:text-black focus:outline-none" placeholder='Age' />
               <div>
                 <label>DOB </label>
-                <input type="date" name="dob" value={formData.dob} onChange={handleChange} className="w-30 text-lg h-14 mx-auto bg-inherit border-b-2 border-black placeholder:text-black" />
+                <input type="date" name="dob" value={formData.dob} onChange={handleChange} className="w-30 text-lg h-14 mx-auto bg-inherit border-b-2 border-black placeholder:text-black focus:outline-none" />
               </div>
-              <input type="text" name="initialamount" value={formData.initialamount} onChange={handleChange} className="w-30 text-lg h-14 mx-auto bg-inherit border-b-2 border-black placeholder:text-black" placeholder='Initial Amount' />
-              <input type="text" name="pancard" value={formData.pancard} onChange={handleChange} className="w-30 text-lg h-14 mx-auto bg-inherit border-b-2 border-black placeholder:text-black" placeholder='Pancard no.' />
-              <input type="password" name="confirmPassword" value={formData.confirmPassword} onChange={handleChange} className="w-30 text-lg h-14 mx-auto bg-inherit border-b-2 border-black placeholder:text-black" placeholder='Confirm Password' />
+              <input type="text" name="initialamount" value={formData.initialamount} onChange={handleChange} className="w-30 text-lg h-14 mx-auto bg-inherit border-b-2 border-black placeholder:text-black focus:outline-none" placeholder='Initial Amount' />
+              <input type="text" name="pancard" value={formData.pancard} onChange={handleChange} className="w-30 text-lg h-14 mx-auto bg-inherit border-b-2 border-black placeholder:text-black focus:outline-none" placeholder='Pancard no.' />
+              <input type="password" name="confirmPassword" value={formData.confirmPassword} onChange={handleChange} className="w-30 text-lg h-14 mx-auto bg-inherit border-b-2 border-black placeholder:text-black focus:outline-none" placeholder='Confirm Password' />
             </div>
           </div>
           <div className='flex flex-col mt-4 gap-3'>
@@ -165,6 +179,7 @@ const Register = () => {
           </div>
         </div>
       </form>
+      
     </section>
   );
 }

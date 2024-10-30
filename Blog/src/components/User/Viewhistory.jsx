@@ -96,7 +96,7 @@ const Viewhistory = () => {
                     <tr key={index}>
                       <td>{formattedDate}</td>
                       <td>{transaction.time}</td>
-                      <td>{transaction.transaction}</td>
+                      <td className={transaction.transaction == "debit"?"text-red-700":"text-green-700"}>{transaction.transaction}</td>
                       <td>${transaction.amount}</td>
                       <td>${transaction.balance}</td>
                     </tr>
@@ -104,7 +104,7 @@ const Viewhistory = () => {
                 })
               ) : (
                 <tr>
-                  <td colSpan="5">No transactions found</td>
+                  <td colSpan="5" >No transactions found</td>
                 </tr>
               )}
             </tbody>

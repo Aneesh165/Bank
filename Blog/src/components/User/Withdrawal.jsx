@@ -52,6 +52,9 @@ const Withdrawal = () => {
   }, []);
 
   const handleWithdraw = async () => {
+    if(withdrawal.amount === '') {
+      return toast(" amount should be greater than ' 0 ' ")
+    } 
     try {
       const userId = localStorage.getItem("userId");
       const response = await axios.post(
@@ -62,9 +65,17 @@ const Withdrawal = () => {
         }
       );
       toast.success(response.data.message);
-      setTimeout(() => {
-        navigate('/home');
-      }, 3600);
+      if(toast.success){
+        setWithdrawal({
+          branch: "Branch Name",
+          amount: ""
+        })
+        setTimeout(() => {
+          navigate('/home');
+        }, 1600);
+  
+      }
+      
     } catch (error) {
       console.error("Error during withdrawal:", error);
       toast.error("An error occurred during the withdrawal. Please try again.");
@@ -154,7 +165,7 @@ const Withdrawal = () => {
               placeholder="0"
               value={withdrawal.amount}
               onChange={handleChange}
-              className="ml-24 text-lg  rounded-lg bg-inherit py-1 placeholder:text-black"
+              className="ml-24 text-lg  rounded-lg bg-inherit py-1 placeholder:text-black focus:outline-none"
             />
           </div>
 

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import Bank from "../../assets/Bank.png";
+import { toast, ToastContainer } from "react-toastify";
 
 const BankLogin = () => {
   const [username, setUsername] = useState("");
@@ -20,11 +21,14 @@ const BankLogin = () => {
       });
 
       if (response.data.success) {
-        console.log("Login successful:", response.data);
+        toast("Login successful:", response.data);
         localStorage.setItem("token", response.data.token);
-        navigate("/bankhome");
+        setTimeout(() => {
+          navigate("/bankhome");
+
+        }, 1500);
       } else {
-        console.log("Login failed:", response.data.message);
+        toast("Login failed:", response.data.message);
         setError(response.data.message)
       }
     } catch (error) {
@@ -40,6 +44,7 @@ const BankLogin = () => {
       <section className="h-[100vh] flex bg-stone-400">
         <div className="h-[100%] w-[45%]">
           <img className="h-[100%] object-right" src={Bank} alt="Bank" />
+          <ToastContainer/>
         </div>
         <form
           onSubmit={handleSubmit}
@@ -50,7 +55,7 @@ const BankLogin = () => {
 
             {error && <p className="text-red-500 text-center">{error}</p>}
             <input
-              className="w-3/4 text-xl h-14 mx-auto bg-inherit border-b-2 border-black placeholder:text-black"
+              className="w-3/4 text-xl h-14 mx-auto bg-inherit border-b-2 border-black placeholder:text-black focus:outline-none"
               type="text"
               placeholder="Username"
               value={username}
@@ -58,7 +63,7 @@ const BankLogin = () => {
               required
             />
             <input
-              className="w-3/4 text-xl h-14 mx-auto bg-inherit border-b-2 border-black placeholder:text-black"
+              className="w-3/4 text-xl h-14 mx-auto bg-inherit border-b-2 border-black placeholder:text-black focus:outline-none"
               type="password"
               placeholder="Password"
               value={password}

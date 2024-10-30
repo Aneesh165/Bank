@@ -54,6 +54,9 @@ const Deposit = () => {
   }, []);
 
   const handleDeposit = async () => {
+    if(deposit.amount === '') {
+      return toast("Amount should be greater than '0' ")
+    } 
     try {
       const userId = localStorage.getItem("userId");
       const response = await axios.post(
@@ -65,10 +68,18 @@ const Deposit = () => {
       );
 
       toast.success(response.data.message);
-      setTimeout(() => {
-        navigate('/home');
-      }, 3600);
 
+      if(toast.success){
+        setDeposit({
+          branch: "Branch Name",
+          amount: ""
+        })
+        setTimeout(() => {
+          navigate('/home');
+        }, 1600);
+  
+      }
+      
     } catch (error) {
       console.error("Error during deposit:", error);
       toast.error("An error occurred during the deposit. Please try again."); 
@@ -152,7 +163,7 @@ const Deposit = () => {
               placeholder="0"
               value={deposit.amount}
               onChange={handleChange}
-              className="ml-24 text-lg rounded-lg bg-inherit py-1 placeholder:text-black"
+              className="ml-24 text-lg rounded-lg bg-inherit py-1 placeholder:text-black focus:outline-none"
             />
           </div>
 

@@ -4,6 +4,7 @@ import { FiLogOut } from "react-icons/fi";
 import { IoMdNotificationsOutline } from "react-icons/io";
 import { Link,  useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { toast, ToastContainer } from "react-toastify";
 
 
 const EditProfile = () => {
@@ -43,7 +44,7 @@ const EditProfile = () => {
   
     const isEmpty = Object.values(formData).every((value) => value === "" || value === null);
     if (isEmpty) {
-      console.log("No data provided. Please fill at least one field.");
+      toast("No data provided. Please fill at least one field.");
       return; 
     }
   
@@ -68,9 +69,14 @@ const EditProfile = () => {
       );
   
       console.log("User updated successfully:", response.data);
-      navigate("/profile");
+      toast("User Data Updated Successfully")
+      setTimeout(() => {
+        navigate("/profile");
+
+      }, 1500);
     } catch (error) {
       console.error("Error updating user:", error);
+      toast("Error updating user")
     }
   };
   
@@ -96,6 +102,7 @@ const EditProfile = () => {
         className="h-[667px] w-[100%] bg-cover bg-center"
         style={{ backgroundImage: `url(${Bank})` }}
       >
+        <ToastContainer/>
         {/* Card */}
         <form
           className="w-[580px] ml-20 h-[550px] mt-16 bg-sky-300 rounded-3xl flex items-center flex-col"
