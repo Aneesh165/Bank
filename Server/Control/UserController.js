@@ -4,19 +4,7 @@ import { upload } from "../Multer.js";
 import jwt from "jsonwebtoken";
 
 export const AddUser = async (req, res) => {
-  const {
-    name,
-    username,
-    address,
-    email,
-    age,
-    phone,
-    dob,
-    adhar,
-    initialamount,
-    password,
-    pancard,
-  } = req.body;
+  const {name,username,address,email,age,phone,dob,adhar,initialamount,password,pancard} = req.body;
   let image = req.file;
   console.log(image);
   try {
@@ -33,21 +21,7 @@ export const AddUser = async (req, res) => {
 
     const accno = Math.ceil(Math.random() * 100000000000000);
 
-    let newUser = new User({
-      name,
-      username,
-      address,
-      email,
-      age,
-      phone,
-      dob,
-      adhar,
-      initialamount,
-      password: hashedPassword,
-      pancard,
-      image: image ? image.filename : null,
-      accountno: accno,
-    });
+    let newUser = new User({name,username,address,email,age,phone,dob,adhar,initialamount,password: hashedPassword,pancard,image: image ? image.filename : null,accountno: accno});
 
     await newUser.save();
     res.status(201).json({ message: "User registered successfully" });
