@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import axios from "axios";
 import Bank from "../../assets/Bank.png";
 import { Link, useNavigate } from "react-router-dom";

@@ -96,7 +96,7 @@ export const GetUserById = async (req, res) => {
     }
   };
 
-  export const getUserTransactionById = async (req, res) => {
+export const getUserTransactionById = async (req, res) => {
     const userId = req.params.id;
   
     try {

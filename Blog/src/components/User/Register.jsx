@@ -32,8 +32,9 @@ const Register = () => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
       ...prevData,
-      [name]: value,
+      [name]: value,     
     }));
+
   };
 
   const handleFileChange = (e) => {
@@ -185,3 +186,4 @@ const Register = () => {
 }
 
 export default Register;
+

@@ -22,7 +22,7 @@ export const AddUser = async (req, res) => {
     const accno = Math.ceil(Math.random() * 100000000000000);
 
     let newUser = new User({name,username,address,email,age,phone,dob,adhar,initialamount,password: hashedPassword,pancard,image: image ? image.filename : null,accountno: accno});
-
+    
     await newUser.save();
     res.status(201).json({ message: "User registered successfully" });
   } catch (error) {
@@ -50,7 +50,7 @@ export const UserLogin = async (req, res) => {
     const existingUser = await User.findOne({
       username: username.toLowerCase(),
     });
-
+    
     if (!existingUser) {
       return res.json({ success: false, message: "Username not found" });
     }
